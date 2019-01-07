@@ -1,0 +1,22 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "com.lind.basic.config.AuthorConfig",
+      "name": "author",
+      "type": "com.lind.basic.config.AuthorConfig"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "com.lind.basic.config.AuthorConfig",
+      "name": "author.email",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.lind.basic.config.AuthorConfig",
+      "name": "author.name",
+      "type": "java.lang.String"
+    }
+  ]
+}

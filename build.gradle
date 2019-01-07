@@ -1,0 +1,114 @@
+buildscript {
+    ext {
+        springBootVersion = '2.0.6.RELEASE'
+    }
+    repositories {
+        mavenLocal()
+        maven {
+            name "aliyun1"
+            url 'http://maven.aliyun.com/nexus/content/groups/public'
+        }
+        maven {
+            name "aliyun2"
+            url 'http://maven.aliyun.com/mvn/repository/'
+        }
+        mavenCentral()
+        dependencies {
+            classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+            classpath('se.transmode.gradle:gradle-docker:1.2')
+        }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath('se.transmode.gradle:gradle-docker:1.2')
+    }
+}
+
+ext {
+    springCloudVersion = 'Finchley.SR1'
+}
+
+group 'com.lind'
+version '4.0'
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+sourceCompatibility = 1.8
+
+dependencyManagement {
+    imports {
+        // spring bom helps us to declare dependencies without specifying version numbers.
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+repositories {
+    mavenLocal()
+    maven {
+        name "aliyun1"
+        url 'http://maven.aliyun.com/nexus/content/groups/public'
+    }
+    maven {
+        name "aliyun2"
+        url 'http://maven.aliyun.com/mvn/repository/'
+    }
+    mavenCentral()
+}
+
+dependencies {
+    compile(
+            'org.springframework.cloud:spring-cloud-context',
+            'org.springframework.boot:spring-boot-starter-web',
+            'org.springframework.boot:spring-boot-starter-data-jpa',
+            'org.springframework.boot:spring-boot-starter-data-redis',
+            'org.springframework.boot:spring-boot-starter-data-mongodb',
+            'org.springframework.boot:spring-boot-starter-amqp',
+            'org.apache.commons:commons-lang3:3.5',
+            'commons-collections:commons-collections:3.2.2',
+            'org.apache.poi:poi-ooxml:3.17',
+            'redis.clients:jedis',
+            'com.baomidou:mybatis-plus-boot-starter:3.0.1',
+            'com.google.guava:guava:24.1-jre',
+            'mysql:mysql-connector-java',
+
+    )
+    compileOnly('org.projectlombok:lombok')
+
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+apply plugin: "maven-publish"
+task sourceJar(type: Jar) {
+    from sourceSets.main.allJava
+    //classifier "sources" //定义一个标志 (生成的jar包后面加上sources, 如: jlib-2.2.11-sources.jar)
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            //打包源码和class
+            from components.java    //发布java组件
+            //定义源码task,这个与classifier "sources"对应
+            //artifact sourceJar
+        }
+    }
+
+    //定义目标仓库 (包所存放的地方)
+    repositories {
+        mavenLocal()
+
+        maven {
+            if (project.version.endsWith('-SNAPSHOT')) {
+                url = "https://repo.rdc.aliyun.com/repository/44454-snapshot-Ejfhso"
+            } else {
+                url = "https://repo.rdc.aliyun.com/repository/44454-release-3afmGw"
+            }
+            credentials {
+                username 'fTMcrA'
+                password 'uCQE7YXL3d'
+            }
+        }
+    }
+}
