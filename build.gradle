@@ -28,7 +28,7 @@ ext {
 }
 
 group 'com.lind'
-version '1.0.9'
+version '1.1.0'
 
 apply plugin: 'java'
 apply plugin: 'idea'
@@ -94,7 +94,7 @@ apply plugin: "maven-publish"
 task sourceJar(type: Jar) {
     // main程序代码会打包，而test模型不会被打进包里
     from sourceSets.main.allJava
-    //classifier "sources" //定义一个标志 (生成的jar包后面加上sources, 如: jlib-2.2.11-sources.jar)
+    //classifier "sources" // 是否生成java源文件 (生成的jar包后面加上sources, 如: jlib-2.2.11-sources.jar)
 }
 publishing {
     publications {
