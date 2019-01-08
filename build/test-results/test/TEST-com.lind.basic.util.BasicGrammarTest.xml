@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.lind.basic.util.BasicGrammarTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2019-01-08T08:17:52" hostname="MacBook-Pro-6.local" time="0.009">
+  <properties/>
+  <testcase name="long_int" classname="com.lind.basic.util.BasicGrammarTest" time="0.0"/>
+  <testcase name="java8_before_anonymous" classname="com.lind.basic.util.BasicGrammarTest" time="0.001"/>
+  <testcase name="lambda" classname="com.lind.basic.util.BasicGrammarTest" time="0.003"/>
+  <testcase name="interfaceAbstract" classname="com.lind.basic.util.BasicGrammarTest" time="0.001"/>
+  <testcase name="listFindLong" classname="com.lind.basic.util.BasicGrammarTest" time="0.0"/>
+  <testcase name="long_integer" classname="com.lind.basic.util.BasicGrammarTest" time="0.0"/>
+  <testcase name="java8_lambda" classname="com.lind.basic.util.BasicGrammarTest" time="0.002"/>
+  <system-out><![CDATA[New thread created
+Geek
+GeeksQuiz
+Geek2
+Hello
+FunctionalInterface
+FunctionalInterface
+[2]
+New thread created
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

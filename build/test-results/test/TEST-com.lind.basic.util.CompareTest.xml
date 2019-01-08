@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.lind.basic.util.CompareTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2019-01-08T08:17:52" hostname="MacBook-Pro-6.local" time="0.022">
+  <properties/>
+  <testcase name="latestMonthYearTest" classname="com.lind.basic.util.CompareTest" time="0.022"/>
+  <system-out><![CDATA[2018-03
+2018-02
+2018-01
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

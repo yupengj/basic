@@ -1,0 +1,53 @@
+{
+  "id" : "20f227bd-011d-4a0e-ad2f-f50657072f52",
+  "name" : "broker",
+  "modelVersion" : "6.1",
+  "authenticationproviders" : [ {
+    "id" : "544bb6bf-c333-437a-b9ca-479df71aa83e",
+    "name" : "plain",
+    "type" : "Plain",
+    "secureOnlyMechanisms" : [ ],
+    "users" : [ {
+      "id" : "21cbf515-65f2-432b-8517-74b458d203f0",
+      "name" : "guest",
+      "type" : "managed",
+      "password" : "guest"
+    } ]
+  } ],
+  "ports" : [ {
+    "id" : "c56daf93-ad6f-46d4-8793-2d2ebf2b37ef",
+    "name" : "AMQP",
+    "port" : "${qpid.amqp_port}",
+    "authenticationProvider" : "plain",
+    "virtualhostaliases" : [ {
+      "id" : "1fceac86-067a-43c6-bf4a-d2e9e989085c",
+      "name" : "defaultAlias",
+      "type" : "defaultAlias"
+    }, {
+      "id" : "41d8ee54-8152-4125-9fb4-a447be27ec32",
+      "name" : "hostnameAlias",
+      "type" : "hostnameAlias"
+    }, {
+      "id" : "2d926ebc-da53-41dc-8ad9-91f640907811",
+      "name" : "nameAlias",
+      "type" : "nameAlias"
+    } ]
+  }, {
+    "id" : "54d96dee-ae3a-427d-b55a-9e4c1f8be3a8",
+    "name" : "HTTP",
+    "port" : "${qpid.http_port}",
+    "authenticationProvider" : "plain",
+    "protocols" : [ "HTTP" ]
+  } ],
+  "virtualhostnodes" : [ {
+    "id" : "8fdc6c69-ac77-4d90-957f-5189b81a0fb7",
+    "name" : "default",
+    "type" : "JSON",
+    "defaultVirtualHostNode" : "true",
+    "virtualHostInitialConfiguration" : "{}",
+    "lastUpdatedBy" : null,
+    "lastUpdatedTime" : 1546918927961,
+    "createdBy" : null,
+    "createdTime" : 1546918927709
+  } ]
+}

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.lind.basic.util.AsyncTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2019-01-08T08:17:42" hostname="MacBook-Pro-6.local" time="10.013">
+  <properties/>
+  <testcase name="synchronizedTest" classname="com.lind.basic.util.AsyncTest" time="5.006"/>
+  <testcase name="testShareObj" classname="com.lind.basic.util.AsyncTest" time="5.007"/>
+  <system-out><![CDATA[print synchronized result:2019-01-08T16:17:42.204
+print synchronized result:2019-01-08T16:17:42.204
+print synchronized result:2019-01-08T16:17:42.205
+print synchronized result:2019-01-08T16:17:42.205
+print synchronized result:2019-01-08T16:17:42.205
+main start:102019-01-08T16:17:47.201
+async.print:102019-01-08T16:17:47.201
+main end:102019-01-08T16:17:52.207
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

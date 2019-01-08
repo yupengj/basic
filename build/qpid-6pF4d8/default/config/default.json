@@ -1,0 +1,156 @@
+{
+  "id" : "97d8e7a4-d567-4248-990c-f1358be1f383",
+  "type" : "Memory",
+  "name" : "default",
+  "modelVersion" : "6.1",
+  "lastUpdatedTime" : 1546935803856,
+  "createdTime" : 1546935803856,
+  "exchanges" : [ {
+    "id" : "d8683997-0833-40cc-81bc-9db439099eba",
+    "name" : "amq.direct",
+    "type" : "direct",
+    "lastUpdatedTime" : 1546935803857,
+    "createdTime" : 1546935803857
+  }, {
+    "id" : "10e67ccc-4fba-48c1-8bef-7a05a5ca571e",
+    "name" : "amq.fanout",
+    "type" : "fanout",
+    "lastUpdatedTime" : 1546935803856,
+    "createdTime" : 1546935803856
+  }, {
+    "id" : "4055e9b2-6b2e-47da-86a3-8c8d76dbe0ec",
+    "name" : "amq.match",
+    "type" : "headers",
+    "lastUpdatedTime" : 1546935803857,
+    "createdTime" : 1546935803857
+  }, {
+    "id" : "1a80e4fe-188c-4ae6-a6c2-d8334c8ef5c6",
+    "name" : "amq.topic",
+    "type" : "topic",
+    "lastUpdatedTime" : 1546935803857,
+    "createdTime" : 1546935803857
+  }, {
+    "id" : "10f8676d-d547-46a4-b418-336c246afede",
+    "name" : "test.basic.dl.exchange",
+    "type" : "topic",
+    "durable" : true,
+    "lifetimePolicy" : "PERMANENT",
+    "lastUpdatedBy" : "guest",
+    "lastUpdatedTime" : 1546935808545,
+    "createdBy" : "guest",
+    "createdTime" : 1546935808545
+  }, {
+    "id" : "0bcc25b0-c4a8-4322-b763-222c28ae9ad9",
+    "name" : "test.basic.exchange",
+    "type" : "topic",
+    "durable" : true,
+    "lifetimePolicy" : "PERMANENT",
+    "lastUpdatedBy" : "guest",
+    "lastUpdatedTime" : 1546935808530,
+    "createdBy" : "guest",
+    "createdTime" : 1546935808530
+  }, {
+    "id" : "eb1fd303-d244-4068-8a99-44febddef27e",
+    "name" : "test.basic.fanoutExchange",
+    "type" : "fanout",
+    "durable" : true,
+    "lifetimePolicy" : "PERMANENT",
+    "lastUpdatedBy" : "guest",
+    "lastUpdatedTime" : 1546935808555,
+    "createdBy" : "guest",
+    "createdTime" : 1546935808555
+  } ],
+  "queues" : [ {
+    "id" : "efde5358-5ef3-4e30-88f1-a6f41b3a3d38",
+    "name" : "product1.queue",
+    "type" : "standard",
+    "durable" : true,
+    "lifetimePolicy" : "PERMANENT",
+    "exclusive" : "NONE",
+    "owner" : null,
+    "lastUpdatedBy" : "guest",
+    "lastUpdatedTime" : 1546935808637,
+    "createdBy" : "guest",
+    "createdTime" : 1546935808637,
+    "bindings" : [ {
+      "exchange" : "eb1fd303-d244-4068-8a99-44febddef27e",
+      "id" : "a013d522-c2fe-4f80-b2c3-70fa9200837e",
+      "name" : "",
+      "type" : "Binding",
+      "durable" : true,
+      "lastUpdatedBy" : "guest",
+      "lastUpdatedTime" : 1546935808668,
+      "createdBy" : "guest",
+      "createdTime" : 1546935808668
+    } ]
+  }, {
+    "id" : "f65dd2ed-742a-44c7-9e1e-ed4a624f9264",
+    "name" : "product2.queue",
+    "type" : "standard",
+    "durable" : true,
+    "lifetimePolicy" : "PERMANENT",
+    "exclusive" : "NONE",
+    "owner" : null,
+    "lastUpdatedBy" : "guest",
+    "lastUpdatedTime" : 1546935808643,
+    "createdBy" : "guest",
+    "createdTime" : 1546935808643,
+    "bindings" : [ {
+      "exchange" : "eb1fd303-d244-4068-8a99-44febddef27e",
+      "id" : "f2db3429-44c6-4a95-a009-12a236bbe3af",
+      "name" : "",
+      "type" : "Binding",
+      "durable" : true,
+      "lastUpdatedBy" : "guest",
+      "lastUpdatedTime" : 1546935808672,
+      "createdBy" : "guest",
+      "createdTime" : 1546935808672
+    } ]
+  }, {
+    "id" : "821166cc-f7d8-44a7-8e96-20b463cb61da",
+    "name" : "test.basic.queue",
+    "type" : "standard",
+    "durable" : true,
+    "lifetimePolicy" : "PERMANENT",
+    "exclusive" : "NONE",
+    "owner" : null,
+    "lastUpdatedBy" : "guest",
+    "lastUpdatedTime" : 1546935808603,
+    "createdBy" : "guest",
+    "createdTime" : 1546935808603,
+    "bindings" : [ {
+      "exchange" : "0bcc25b0-c4a8-4322-b763-222c28ae9ad9",
+      "id" : "e5a4b18d-3afa-41a5-abf3-0d505528f7c4",
+      "name" : "test.basic.queue",
+      "type" : "Binding",
+      "durable" : true,
+      "lastUpdatedBy" : "guest",
+      "lastUpdatedTime" : 1546935808664,
+      "createdBy" : "guest",
+      "createdTime" : 1546935808664
+    } ]
+  }, {
+    "id" : "703afdbb-9129-44e3-a983-30977ecea764",
+    "name" : "test.basic.queue.dead",
+    "type" : "standard",
+    "durable" : true,
+    "lifetimePolicy" : "PERMANENT",
+    "exclusive" : "NONE",
+    "owner" : null,
+    "lastUpdatedBy" : "guest",
+    "lastUpdatedTime" : 1546935808628,
+    "createdBy" : "guest",
+    "createdTime" : 1546935808628,
+    "bindings" : [ {
+      "exchange" : "10f8676d-d547-46a4-b418-336c246afede",
+      "id" : "1aff2110-1c17-4c83-9e53-292a4b69ee1d",
+      "name" : "test.basic.queue.dead",
+      "type" : "Binding",
+      "durable" : true,
+      "lastUpdatedBy" : "guest",
+      "lastUpdatedTime" : 1546935808653,
+      "createdBy" : "guest",
+      "createdTime" : 1546935808653
+    } ]
+  } ]
+}

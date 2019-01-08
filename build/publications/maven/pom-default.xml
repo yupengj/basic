@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.lind</groupId>
   <artifactId>basic</artifactId>
-  <version>4.0</version>
+  <version>1.0.9</version>
   <dependencies>
     <dependency>
       <groupId>org.springframework.cloud</groupId>
@@ -73,6 +73,11 @@
     <dependency>
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
       <scope>compile</scope>
     </dependency>
   </dependencies>
