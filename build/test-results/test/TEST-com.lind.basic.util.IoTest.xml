@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.lind.basic.util.IoTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2019-01-08T08:17:52" hostname="MacBook-Pro-6.local" time="0.001">
-  <properties/>
-  <testcase name="memoryTest" classname="com.lind.basic.util.IoTest" time="0.001"/>
-  <system-out><![CDATA[freeMemory:240694792
-totalMemory:378011648
-]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
