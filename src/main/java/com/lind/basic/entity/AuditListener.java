@@ -15,6 +15,11 @@ import org.springframework.stereotype.Component;
 @Component
 @Transactional
 public class AuditListener {
+  /**
+   * create.
+   *
+   * @param auditable .
+   */
   @PrePersist
   public void setCreatedOn(Auditable auditable) {
     Audit audit = auditable.getAudit();
@@ -28,6 +33,11 @@ public class AuditListener {
     audit.setUpdatedOn(LocalDateTime.now());
   }
 
+  /**
+   * update.
+   *
+   * @param auditable .
+   */
   @PreUpdate
   public void setUpdatedOn(Auditable auditable) {
     Audit audit = auditable.getAudit();
