@@ -4,7 +4,10 @@ CREATE TABLE `user_info` (
   `name` varchar(30)   NULL COMMENT '姓名',
   `email` varchar(50)   NULL COMMENT '邮箱',
   `age` INT(11)   NULL COMMENT '邮箱',
-  `create_time` datetime  NULL COMMENT '创建时间',
-  `update_time` datetime  NULL COMMENT '修改时间',
+  `created_on` datetime  NULL COMMENT '创建时间',
+  `updated_on` datetime  NULL COMMENT '修改时间',
+  `created_by` varchar(30)   NULL COMMENT '创建人',
+  `updated_by` varchar(30)   NULL COMMENT '修改人',
+
   PRIMARY KEY (`id`)
 )  COMMENT='账号表';
