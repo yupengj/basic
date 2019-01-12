@@ -1,5 +1,8 @@
-package com.lind.basic.entity;
+package com.lind.basic.jpa;
 
+import com.lind.basic.entity.Audit;
+import com.lind.basic.entity.AuditListener;
+import com.lind.basic.entity.Auditable;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;

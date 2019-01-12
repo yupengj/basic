@@ -1,4 +1,4 @@
-package com.lind.basic.entity;
+package com.lind.basic.jpa;
 
 import com.lind.basic.BaseTest;
 import java.time.LocalDateTime;

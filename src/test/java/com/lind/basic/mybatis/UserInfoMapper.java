@@ -1,4 +1,6 @@
 package com.lind.basic.mybatis;
 
-public class UserInfoMapper {
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+
+public interface UserInfoMapper extends BaseMapper<UserInfo> {
 }
