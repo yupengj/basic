@@ -1,9 +1,10 @@
 package com.lind.basic.mybatis;
 
+import com.lind.basic.BaseTest;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class MybatisTest {
+public class MybatisTest extends BaseTest {
   @Autowired
   UserInfoMapper userInfoMapper;
 

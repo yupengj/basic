@@ -7,9 +7,10 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * mybatis plus 相关配置.
+ * register mapper.
  */
 @Configuration
-@MapperScan("com.lind.mybatis")
+@MapperScan("com.lind.basic.mybatis")
 public class MybatisPlusConfig {
 
   /**
