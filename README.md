@@ -1,10 +1,16 @@
 # 大叔基础类库
 > 我们一般会把公用的代码放在一个包里，然后其它 项目可以直接使用，就像你使用第三方包一样！
+## 主要内容
+* [x] 仓库
+* [x] 发到本地仓库
+* [x] 私有仓库如果添加用户名和密码
+* [x] 使用和引用私有仓库
+* [x] jpa实体基类和继承
 
-## 仓库
+### 仓库
 存储包的地方叫做仓库，一般可以分为本地仓库和远程仓库，本地一般用mavenLocal表示，在build.gradle中我们都可以看到，一般在安装包时，会优先从本地仓库下载，这样速度是最快的；远程仓库可以在世界各地使用你的包包，提高了代码的重用，面向对象里叫做`DRY`原则。
 
-## 一 发到本地仓库
+### 发到本地仓库
 ```
 apply plugin: "maven-publish"
 task sourceJar(type: Jar) {
@@ -27,7 +33,7 @@ publishing {
 }
 
 ```
-## 私有仓库如果添加用户名和密码
+### 私有仓库如果添加用户名和密码
 ```
 repositories {
     maven {
@@ -44,5 +50,77 @@ repositories {
         }
     }
     }
+}
+```
+### 使用和引用私有仓库
+```
+ repositories {
+        mavenLocal()
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        maven {
+            url 'https://maven.zhyea.com/nexus/content/groups/public'
+            credentials {
+                username 'robin'
+                password 'robin'
+            }
+        }
+        mavenCentral()
+    }
+```
+### jpa实体基类和继承
+```
+@Getter
+@ToString(callSuper = true)
+@AllArgsConstructor
+@NoArgsConstructor
+@MappedSuperclass
+public abstract class EntityBase {
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  protected Long id;
+
+
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+  @Column(name = "created_on")
+  protected LocalDateTime createdOn;
+
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+  @Column(name = "updated_on")
+  protected LocalDateTime updatedOn;
+
+  /**
+   * Sets createdAt before insert
+   */
+  @PrePersist
+  public void setCreationDate() {
+    this.createdOn = LocalDateTime.now();
+    this.updatedOn = LocalDateTime.now();
+  }
+
+  /**
+   * Sets updatedAt before update
+   */
+  @PreUpdate
+  public void setChangeDate() {
+    this.updatedOn = LocalDateTime.now();
+  }
+}
+
+// 具体类，继承这个基类
+@Entity
+@Getter
+@NoArgsConstructor
+@ToString(callSuper = true)
+public class TestEntityBuilder extends EntityBase {
+  private String title;
+  private String description;
+
+  @Builder(toBuilder = true)
+  public TestEntityBuilder(Long id, LocalDateTime createdOn, LocalDateTime updatedOn,
+                           String title, String description) {
+    super(id, createdOn, updatedOn);
+    this.title = title;
+    this.description = description;
+  }
 }
 ```
