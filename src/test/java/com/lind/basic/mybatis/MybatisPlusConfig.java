@@ -20,4 +20,14 @@ public class MybatisPlusConfig {
   public PaginationInterceptor paginationInterceptor() {
     return new PaginationInterceptor();
   }
+
+  /**
+   * 建立与更新时间填充插件.
+   *
+   * @return
+   */
+  @Bean
+  public TimeFullInterceptor timeFullInterceptor() {
+    return new TimeFullInterceptor();
+  }
 }
