@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
 public class SerializableTest extends BaseTest {
   @Test
@@ -25,12 +24,13 @@ public class SerializableTest extends BaseTest {
 
     // 持久化到磁盘,其中code不会被持久化
     ObjectOutputStream objectOutputStream =
-        new ObjectOutputStream(new FileOutputStream("output.txt"));
+        new ObjectOutputStream(new FileOutputStream("src/test/resources/output.txt"));
     objectOutputStream.writeObject(manList);
     objectOutputStream.close();
 
     // 从磁盘读出
-    ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream("output.txt"));
+    ObjectInputStream objectInputStream = new ObjectInputStream(
+        new FileInputStream("src/test/resources/output.txt"));
     List<Man> manList1 = (List<Man>) objectInputStream.readObject();
     objectInputStream.close();
     System.out.println("name: " + manList1.size());
