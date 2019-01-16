@@ -17,10 +17,10 @@ import org.slf4j.LoggerFactory;
 /**
  * 时间拦截器.
  */
-@Intercepts( {@Signature(
+@Intercepts({@Signature(
     type = Executor.class,
     method = "update",
-    args = {MappedStatement.class, Object.class})})
+    args = {MappedStatement.class, Object.class, Integer.class})})
 public class TimeFullInterceptor implements Interceptor {
   private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
