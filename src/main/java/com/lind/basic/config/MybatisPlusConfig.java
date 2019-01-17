@@ -1,6 +1,7 @@
-package com.lind.basic.mybatis;
+package com.lind.basic.config;
 
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
+import com.lind.basic.entity.CreateUpdateTimeInterceptor;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

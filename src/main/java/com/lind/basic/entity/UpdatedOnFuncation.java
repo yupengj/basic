@@ -1,4 +1,4 @@
-package com.lind.basic.mybatis;
+package com.lind.basic.entity;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target( {ElementType.FIELD})
-public @interface CreatedOnFuncation {
+public @interface UpdatedOnFuncation {
 
   String value() default "";
 }

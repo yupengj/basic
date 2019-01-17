@@ -1,5 +1,7 @@
 package com.lind.basic.mybatis;
 
+import com.lind.basic.entity.CreatedOnFuncation;
+import com.lind.basic.entity.UpdatedOnFuncation;
 import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Getter;
