@@ -88,7 +88,7 @@ dependencies {
             'commons-collections:commons-collections:3.2.2',
             'org.apache.poi:poi-ooxml:3.17',
             'redis.clients:jedis',
-            'com.baomidou:mybatis-plus-boot-starter:3.0.1',
+            'com.baomidou:mybatis-plus-boot-starter:3.0.6',
             'com.google.guava:guava:24.1-jre',
             'mysql:mysql-connector-java',
             'com.h2database:h2',

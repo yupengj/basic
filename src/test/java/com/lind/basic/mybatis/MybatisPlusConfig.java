@@ -27,7 +27,7 @@ public class MybatisPlusConfig {
    * @return
    */
   @Bean
-  public TimeFullInterceptor timeFullInterceptor() {
-    return new TimeFullInterceptor();
+  public CreateUpdateTimeInterceptor timeFullInterceptor() {
+    return new CreateUpdateTimeInterceptor();
   }
 }
