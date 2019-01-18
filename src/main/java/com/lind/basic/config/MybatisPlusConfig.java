@@ -1,5 +1,8 @@
 package com.lind.basic.config;
 
+import com.baomidou.mybatisplus.core.injector.ISqlInjector;
+import com.baomidou.mybatisplus.extension.injector.LogicSqlInjector;
+import com.baomidou.mybatisplus.extension.plugins.OptimisticLockerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.lind.basic.entity.CreateUpdateTimeInterceptor;
 import org.mybatis.spring.annotation.MapperScan;
@@ -30,5 +33,23 @@ public class MybatisPlusConfig {
   @Bean
   public CreateUpdateTimeInterceptor timeFullInterceptor() {
     return new CreateUpdateTimeInterceptor();
+  }
+
+  /**
+   * 乐观锁插件.
+   */
+  @Bean
+  public OptimisticLockerInterceptor optimisticLockerInterceptor() {
+    return new OptimisticLockerInterceptor();
+  }
+
+  /**
+   * 逻辑删除，更新等拦截.
+   *
+   * @return
+   */
+  @Bean
+  public ISqlInjector sqlInjector() {
+    return new LogicSqlInjector();
   }
 }
