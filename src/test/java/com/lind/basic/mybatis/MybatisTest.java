@@ -32,11 +32,11 @@ public class MybatisTest extends BaseTest {
   @Test
   public void findPage() {
     QueryWrapper<UserInfo> queryWrapper = new QueryWrapper<>();
-    queryWrapper.eq("name", "lind");
+    queryWrapper.lambda().eq(UserInfo::getName, "lindtest");
     Assert.assertEquals(0, userInfoMapper.selectPage(
         new Page<>(1, 10),
         queryWrapper)
-        .getSize());
+        .getRecords().size());
   }
 
   @Test
@@ -44,6 +44,7 @@ public class MybatisTest extends BaseTest {
     UserInfo userInfo = UserInfo.builder()
         .name("zzl")
         .email("zzl@sina.com")
+        .isDelete(0)
         .build();
     userInfoMapper.insert(userInfo);
     System.out.println("userinfo:" + userInfo.toString());

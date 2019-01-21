@@ -12,7 +12,7 @@ import com.google.zxing.Result;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
-import java.awt.*;
+import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -162,7 +162,7 @@ public class QRCodeHelper extends LuminanceSource {
    * 输出二维码图片流.
    *
    * @param text     二维码内容
-   * @param width    二维码宽
+   * @param width    二维码
    * @param height   二维码高
    * @param format   图片格式eg: png, jpg, gif
    * @param response HttpServletResponse

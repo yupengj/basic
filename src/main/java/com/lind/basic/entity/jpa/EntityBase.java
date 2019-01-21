@@ -15,7 +15,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 /**
- * @MappedSuperclass是一个标识，不会生成这张数据表,子类的@Builder注解需要加在重写的构造方法上(包括父类的属性).
+ * MappedSuperclass是一个标识，不会生成这张数据表.
+ * 子类的@Builder注解需要加在重写的构造方法上(包括父类的属性).
  */
 @Getter
 @ToString(callSuper = true)
@@ -23,21 +24,30 @@ import lombok.ToString;
 @NoArgsConstructor
 @MappedSuperclass
 public abstract class EntityBase {
+  /**
+   * 主键.
+   */
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   protected Long id;
 
 
+  /**
+   * 添加时间.
+   */
   @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
   @Column(name = "created_on")
   protected LocalDateTime createdOn;
 
+  /**
+   * 更新时间.
+   */
   @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
   @Column(name = "updated_on")
   protected LocalDateTime updatedOn;
 
   /**
-   * Sets createdAt before insert
+   * Sets createdAt before insert.
    */
   @PrePersist
   public void setCreationDate() {
@@ -46,7 +56,7 @@ public abstract class EntityBase {
   }
 
   /**
-   * Sets updatedAt before update
+   * Sets updatedAt before update.
    */
   @PreUpdate
   public void setChangeDate() {

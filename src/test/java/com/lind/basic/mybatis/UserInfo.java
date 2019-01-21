@@ -1,7 +1,6 @@
 package com.lind.basic.mybatis;
 
-import com.lind.basic.entity.mybatis.CreatedOnFuncation;
-import com.lind.basic.entity.mybatis.UpdatedOnFuncation;
+import com.lind.basic.entity.mybatis.EntityBase;
 import java.sql.Timestamp;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,17 +9,21 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Getter
-@Builder(toBuilder = true)
-@ToString
+@ToString(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserInfo {
-  private Long id;
+public class UserInfo extends EntityBase {
   private String name;
   private String email;
 
-  @CreatedOnFuncation
-  private Timestamp createdOn;
-  @UpdatedOnFuncation
-  private Timestamp updatedOn;
+  /**
+   * init.
+   */
+  @Builder(toBuilder = true)
+  public UserInfo(Integer isDelete, Long id, Timestamp createdOn,
+                  Timestamp updatedOn, String name, String email) {
+    super(isDelete, id, createdOn, updatedOn);
+    this.name = name;
+    this.email = email;
+  }
 }

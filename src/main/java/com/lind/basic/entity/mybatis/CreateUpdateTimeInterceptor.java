@@ -8,7 +8,7 @@ import java.util.Properties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
-import lombok.val;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.SqlCommandType;
 import org.apache.ibatis.plugin.Interceptor;
@@ -23,11 +23,10 @@ import org.apache.ibatis.plugin.Signature;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Accessors(chain = true)
-@Intercepts( {
-    @Signature(
-        type = org.apache.ibatis.executor.Executor.class,
-        method = "update",
-        args = {MappedStatement.class, Object.class})})
+@Intercepts({@Signature(
+    type = org.apache.ibatis.executor.Executor.class,
+    method = "update",
+    args = {MappedStatement.class, Object.class})})
 public class CreateUpdateTimeInterceptor extends AbstractSqlParserHandler implements Interceptor {
 
   private Properties properties;
@@ -44,17 +43,27 @@ public class CreateUpdateTimeInterceptor extends AbstractSqlParserHandler implem
 
     // 获取私有成员变量
     Field[] declaredFields = parameter.getClass().getDeclaredFields();
-
+    if (parameter.getClass().getSuperclass() != null) {
+      Field[] superField = parameter.getClass().getSuperclass().getDeclaredFields();
+      declaredFields = ArrayUtils.addAll(declaredFields, superField);
+    }
     // 是否为mybatis plug
-    boolean isPlugs = parameter.getClass().getDeclaredFields().length == 1
+    boolean isPlugUpdate = parameter.getClass().getDeclaredFields().length == 1
         && parameter.getClass().getDeclaredFields()[0].getName().equals("serialVersionUID");
 
     //兼容mybatis plus的update
-    if (isPlugs) {
-      val updateParam = (Map<String, Object>) parameter;
-      declaredFields = updateParam.get("param1").getClass().getDeclaredFields();
+    if (isPlugUpdate) {
+      Map<String, Object> updateParam = (Map<String, Object>) parameter;
+      Class<?> updateParamType = updateParam.get("param1").getClass();
+      declaredFields = updateParamType.getDeclaredFields();
+      if (updateParamType.getSuperclass() != null) {
+        Field[] superField = updateParamType.getSuperclass().getDeclaredFields();
+        declaredFields = ArrayUtils.addAll(declaredFields, superField);
+      }
     }
     for (Field field : declaredFields) {
+
+      // insert
       if (field.getAnnotation(CreatedOnFuncation.class) != null) {
         if (SqlCommandType.INSERT.equals(sqlCommandType)) {
           field.setAccessible(true);
@@ -62,13 +71,14 @@ public class CreateUpdateTimeInterceptor extends AbstractSqlParserHandler implem
         }
       }
 
+      // update
       if (field.getAnnotation(UpdatedOnFuncation.class) != null) {
         if (SqlCommandType.INSERT.equals(sqlCommandType)
             || SqlCommandType.UPDATE.equals(sqlCommandType)) {
           field.setAccessible(true);
 
           //兼容mybatis plus的update
-          if (isPlugs) {
+          if (isPlugUpdate) {
             Map<String, Object> updateParam = (Map<String, Object>) parameter;
             field.set(updateParam.get("param1"), new Timestamp(System.currentTimeMillis()));
           } else {
