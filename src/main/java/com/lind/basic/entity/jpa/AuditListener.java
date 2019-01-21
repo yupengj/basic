@@ -1,5 +1,7 @@
-package com.lind.basic.entity;
+package com.lind.basic.entity.jpa;
 
+import com.lind.basic.entity.jpa.Audit;
+import com.lind.basic.entity.jpa.Auditable;
 import java.time.LocalDateTime;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;

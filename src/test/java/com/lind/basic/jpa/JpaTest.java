@@ -11,6 +11,14 @@ public class JpaTest extends BaseTest {
   @Autowired
   TestBuilderEntityRepository testBuilderEntityRepository;
 
+  TestEntityBuilder getTestEntityBuilder() {
+    TestEntityBuilder testEntityBuilder = TestEntityBuilder.builder()
+        .title("lind")
+        .description("lind is @builder and inherit")
+        .build();
+    return testEntityBuilder;
+  }
+
   @Test
   public void updateListen() {
     TestEntity testEntity = TestEntity.builder()
@@ -29,10 +37,7 @@ public class JpaTest extends BaseTest {
    */
   @Test
   public void insertBuilderAndInherit() {
-    TestEntityBuilder testEntityBuilder = TestEntityBuilder.builder()
-        .title("lind")
-        .description("lind is @builder and inherit")
-        .build();
+    TestEntityBuilder testEntityBuilder = getTestEntityBuilder();
     testBuilderEntityRepository.save(testEntityBuilder);
     TestEntityBuilder entity = testBuilderEntityRepository.findById(
         testEntityBuilder.getId()).orElse(null);
@@ -41,5 +46,12 @@ public class JpaTest extends BaseTest {
     entity = entity.toBuilder().description("修改了").build();
     testBuilderEntityRepository.save(entity);
     System.out.println("userinfo:" + entity.toString());
+  }
+
+  @Test
+  public void findByTitle() {
+    TestEntityBuilder testEntityBuilder = getTestEntityBuilder();
+    testBuilderEntityRepository.save(testEntityBuilder);
+    Assert.assertEquals(1, testBuilderEntityRepository.findByTitle("lind").size());
   }
 }

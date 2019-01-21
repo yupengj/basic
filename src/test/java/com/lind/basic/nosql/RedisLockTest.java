@@ -3,6 +3,7 @@ package com.lind.basic.nosql;
 import com.lind.basic.BaseTest;
 import com.lind.basic.config.RedisLock;
 import java.time.LocalDateTime;
+import java.util.concurrent.TimeUnit;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class RedisLockTest extends BaseTest {
       long time = System.currentTimeMillis() + 10;
       redisLock.lock("product", String.valueOf(time));
       logger.info("hello start:{}", LocalDateTime.now());
-      Thread.sleep(1000);
+      TimeUnit.MILLISECONDS.sleep(1000);
       redisLock.unlock("product", String.valueOf(time));
       logger.info("hello end:{}", LocalDateTime.now());
     } catch (Exception e) {

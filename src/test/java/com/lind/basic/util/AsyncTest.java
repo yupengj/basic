@@ -1,6 +1,7 @@
 package com.lind.basic.util;
 
 import java.time.LocalDateTime;
+import java.util.concurrent.TimeUnit;
 import org.junit.Test;
 import org.springframework.scheduling.annotation.Async;
 
@@ -16,7 +17,8 @@ public class AsyncTest {
   @Async
   void print() throws Exception {
     System.out.println("async.print:" + Thread.currentThread().getId() + LocalDateTime.now());
-    Thread.sleep(5000L);
+    TimeUnit.MILLISECONDS.sleep(5000);
+
   }
 
   /**
@@ -31,7 +33,7 @@ public class AsyncTest {
     for (int i = 0; i < 5; i++) {
       new Thread(() -> queue()).start();
     }
-    Thread.sleep(5000);
+    TimeUnit.MILLISECONDS.sleep(5000);
 
   }
 }

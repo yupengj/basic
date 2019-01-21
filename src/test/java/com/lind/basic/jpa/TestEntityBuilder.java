@@ -1,7 +1,7 @@
 package com.lind.basic.jpa;
 
 
-import com.lind.basic.entity.EntityBase;
+import com.lind.basic.entity.jpa.EntityBase;
 import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import lombok.Builder;

@@ -88,11 +88,14 @@ dependencies {
             'commons-collections:commons-collections:3.2.2',
             'org.apache.poi:poi-ooxml:3.17',
             'redis.clients:jedis',
-            'com.baomidou:mybatis-plus-boot-starter:3.0.1',
+            'com.baomidou:mybatis-plus-boot-starter:3.0.6',
             'com.google.guava:guava:24.1-jre',
             'mysql:mysql-connector-java',
-            'com.h2database:h2'
-
+            'com.h2database:h2',
+            'org.springframework.session:spring-session-data-redis',
+            // 二维码
+            'com.google.zxing:core:3.3.2',
+            'com.google.zxing:javase:3.3.2',
     )
     compileOnly('org.projectlombok:lombok')
     testCompileOnly('org.projectlombok:lombok')
