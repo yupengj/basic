@@ -1,4 +1,4 @@
-package com.lind.basic.entity;
+package com.lind.basic.entity.mybatis;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -8,6 +8,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target( {ElementType.FIELD})
 public @interface UpdatedOnFuncation {
-
   String value() default "";
 }

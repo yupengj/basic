@@ -1,4 +1,4 @@
-package com.lind.basic.entity;
+package com.lind.basic.entity.jpa;
 
 import java.time.LocalDateTime;
 import javax.persistence.Column;

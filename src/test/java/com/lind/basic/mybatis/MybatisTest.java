@@ -3,10 +3,10 @@ package com.lind.basic.mybatis;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lind.basic.BaseTest;
+import java.util.concurrent.TimeUnit;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
 
 public class MybatisTest extends BaseTest {
   @Autowired
@@ -37,5 +37,20 @@ public class MybatisTest extends BaseTest {
         new Page<>(1, 10),
         queryWrapper)
         .getSize());
+  }
+
+  @Test
+  public void update() throws Exception {
+    UserInfo userInfo = UserInfo.builder()
+        .name("zzl")
+        .email("zzl@sina.com")
+        .build();
+    userInfoMapper.insert(userInfo);
+    System.out.println("userinfo:" + userInfo.toString());
+    TimeUnit.MILLISECONDS.sleep(50);
+    UserInfo old = userInfoMapper.selectById(userInfo.getId());
+    old = old.toBuilder().email("modify_zzl@sina.com").build();
+    userInfoMapper.update(old, new QueryWrapper<UserInfo>().lambda().eq(UserInfo::getName, "zzl"));
+    System.out.println("modify userinfo:" + old.toString());
   }
 }

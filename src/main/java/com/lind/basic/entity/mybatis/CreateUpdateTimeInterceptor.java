@@ -1,14 +1,14 @@
-package com.lind.basic.entity;
+package com.lind.basic.entity.mybatis;
 
 import com.baomidou.mybatisplus.extension.handlers.AbstractSqlParserHandler;
 import java.lang.reflect.Field;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
+import java.util.Map;
 import java.util.Properties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
-import org.apache.ibatis.logging.Log;
-import org.apache.ibatis.logging.LogFactory;
+import lombok.val;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.SqlCommandType;
 import org.apache.ibatis.plugin.Interceptor;
@@ -30,8 +30,6 @@ import org.apache.ibatis.plugin.Signature;
         args = {MappedStatement.class, Object.class})})
 public class CreateUpdateTimeInterceptor extends AbstractSqlParserHandler implements Interceptor {
 
-  private static final Log logger = LogFactory.getLog(com.baomidou.mybatisplus.extension.plugins.SqlExplainInterceptor.class);
-
   private Properties properties;
 
   @Override
@@ -47,18 +45,35 @@ public class CreateUpdateTimeInterceptor extends AbstractSqlParserHandler implem
     // 获取私有成员变量
     Field[] declaredFields = parameter.getClass().getDeclaredFields();
 
+    // 是否为mybatis plug
+    boolean isPlugs = parameter.getClass().getDeclaredFields().length == 1
+        && parameter.getClass().getDeclaredFields()[0].getName().equals("serialVersionUID");
+
+    //兼容mybatis plus的update
+    if (isPlugs) {
+      val updateParam = (Map<String, Object>) parameter;
+      declaredFields = updateParam.get("param1").getClass().getDeclaredFields();
+    }
     for (Field field : declaredFields) {
       if (field.getAnnotation(CreatedOnFuncation.class) != null) {
-        if (SqlCommandType.INSERT.equals(sqlCommandType)) { // insert 语句插入 createTime
+        if (SqlCommandType.INSERT.equals(sqlCommandType)) {
           field.setAccessible(true);
-          field.set(parameter, LocalDateTime.now());
+          field.set(parameter, new Timestamp(System.currentTimeMillis()));
         }
       }
 
-      if (field.getAnnotation(UpdatedOnFuncation.class) != null) { // insert 或 update 语句插入 updateTime
-        if (SqlCommandType.INSERT.equals(sqlCommandType) || SqlCommandType.UPDATE.equals(sqlCommandType)) {
+      if (field.getAnnotation(UpdatedOnFuncation.class) != null) {
+        if (SqlCommandType.INSERT.equals(sqlCommandType)
+            || SqlCommandType.UPDATE.equals(sqlCommandType)) {
           field.setAccessible(true);
-          field.set(parameter, LocalDateTime.now());
+
+          //兼容mybatis plus的update
+          if (isPlugs) {
+            Map<String, Object> updateParam = (Map<String, Object>) parameter;
+            field.set(updateParam.get("param1"), new Timestamp(System.currentTimeMillis()));
+          } else {
+            field.set(parameter, new Timestamp(System.currentTimeMillis()));
+          }
         }
       }
     }

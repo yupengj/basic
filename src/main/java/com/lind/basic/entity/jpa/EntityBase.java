@@ -1,4 +1,4 @@
-package com.lind.basic.entity;
+package com.lind.basic.entity.jpa;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDateTime;
