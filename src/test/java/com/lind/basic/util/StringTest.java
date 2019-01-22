@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class StringTest {
+
   @Test
   public void substring() {
     StringBuffer stringBuffer = new StringBuffer();
@@ -23,4 +24,12 @@ public class StringTest {
     Long expected = 1L;
     Assert.assertTrue(expected == Long.valueOf(1));
   }
+
+  @Test
+  public void star() {
+    System.out.println(ReplaceStarUtils.replaceAction("13523972990"));
+    System.out.println(ReplaceStarUtils.replaceAction("海关统计不公司"));
+
+  }
+
 }
