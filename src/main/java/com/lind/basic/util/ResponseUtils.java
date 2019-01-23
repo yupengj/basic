@@ -1,19 +1,19 @@
 package com.lind.basic.util;
 
 import com.google.common.collect.Maps;
+import com.lind.basic.exception.ErrorItem;
 import com.lind.basic.exception.ErrorResponse;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-/**
- * webApi返回规范.
- */
 @Builder
 public class ResponseUtils {
 
@@ -33,6 +33,13 @@ public class ResponseUtils {
    */
   public static ResponseEntity<?> ok(Object body, String message) {
     return ResponseEntity.ok(buildResponseBody(200, message, body));
+  }
+
+  /**
+   * 创建操作成功的响应Mono.
+   */
+  public static ResponseEntity<ErrorResponse> ok(HttpServletRequest request, String successCode) {
+    return buildResponseEntity(buildErrorResponse(request, HttpStatus.OK, successCode, null));
   }
 
   public static ResponseEntity<?> okNullBody() {
@@ -62,6 +69,43 @@ public class ResponseUtils {
    */
   public static ResponseEntity<ErrorResponse> buildResponseEntity(ErrorResponse errorResponse) {
     return ResponseEntity.status(errorResponse.getStatus()).body(errorResponse);
+  }
+
+  /**
+   * 构建ResponseEntity.
+   */
+  public static ErrorResponse buildErrorResponse(
+      HttpServletRequest request,
+      HttpStatus httpStatus,
+      String errorCode,
+      Object value) {
+    ErrorResponse errorResponse = new ErrorResponse();
+    errorResponse.setStatus(httpStatus.value());
+    errorResponse.setMethod(request.getMethod());
+    errorResponse.setPath(getFullRequestUrl(request));
+    errorResponse.addError(errorCode, value);
+    return errorResponse;
+  }
+
+  /**
+   * 构建ResponseEntity.
+   */
+  public static ErrorResponse buildErrorResponse(
+      HttpServletRequest request,
+      HttpStatus httpStatus,
+      List<ErrorItem> errorItems) {
+    ErrorResponse errorResponse = new ErrorResponse();
+    errorResponse.setStatus(httpStatus.value());
+    errorResponse.setMethod(request.getMethod());
+    errorResponse.setPath(getFullRequestUrl(request));
+    if (CollectionUtils.isNotEmpty(errorItems)) {
+      errorItems
+          .stream()
+          .forEach(errorItem -> {
+            errorResponse.addError(errorItem);
+          });
+    }
+    return errorResponse;
   }
 
   /**

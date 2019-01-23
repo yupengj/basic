@@ -1,71 +1,74 @@
 package com.lind.basic.exception;
 
+import com.lind.basic.util.ResponseUtils;
 import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-/**
- * 异常拦截器.
- */
 @Slf4j
 @ControllerAdvice
 public class ErrorHandler {
-  static String getFullRequestUrl(HttpServletRequest request) {
-    String fullRequestUrl = request.getRequestURI();
-    String queryString = request.getQueryString();
-    if (StringUtils.isNotBlank(queryString)) {
-      fullRequestUrl = fullRequestUrl + "?" + queryString;
-    }
-    return fullRequestUrl;
-  }
 
   @ExceptionHandler(Exception.class)
   private ResponseEntity<ErrorResponse> exception(Exception exception, HttpServletRequest request) {
-    ErrorResponse errorResponse = getErrorResponse(
-        HttpStatus.INTERNAL_SERVER_ERROR, ErrorCodes.INTERNAL_SERVER_ERROR, exception, request);
+
+    logger.error("internal server error", exception);
+
+    ErrorResponse errorResponse = ResponseUtils
+        .buildErrorResponse(request, HttpStatus.INTERNAL_SERVER_ERROR, null);
+    errorResponse.setExtra(exception.getStackTrace());
+    errorResponse.addError(ErrorCodes.INTERNAL_SERVER_ERROR, "服务端异常");
+
     logger.error("handle Exception, response = {}", errorResponse);
     return buildResponseEntity(errorResponse);
   }
 
-  /**
-   * 错误对象赋值.
-   *
-   * @param status    .
-   * @param code      .
-   * @param exception .
-   * @param request   .
-   * @return
-   */
-  private ErrorResponse getErrorResponse(HttpStatus status,
-                                         String code,
-                                         Exception exception,
-                                         HttpServletRequest request) {
-    ErrorResponse.ErrorItem errorItem = ErrorResponse.ErrorItem.builder()
-        .code(code)
+  @ExceptionHandler(Exceptions.HttpStatusException.class)
+  private ResponseEntity<ErrorResponse> httpStatusException(
+      Exceptions.HttpStatusException exception,
+      HttpServletRequest request) {
+
+    logger.debug("HttpStatusException", exception);
+
+    ErrorResponse errorResponse = ResponseUtils
+        .buildErrorResponse(request, exception.getHttpStatus(), null);
+
+    errorResponse.addError(ErrorItem.builder()
+        .code(exception.getCode())
+        .value(exception.getValue())
         .message(exception.getMessage())
-        .build();
+        .build()
+    );
 
-    ErrorResponse errorResponse = ErrorResponse.builder()
-        .extra(exception.getStackTrace())
-        .status(status.value())
-        .path(getFullRequestUrl(request))
-        .method(request.getMethod())
-        .errors(errorItem)
-        .build();
-    return errorResponse;
+    logger.debug("handle HttpStatusException, response = {}", errorResponse);
+    return buildResponseEntity(errorResponse);
   }
-
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
   private ResponseEntity<ErrorResponse> methodArgumentNotValidException(
       MethodArgumentNotValidException exception, HttpServletRequest request) {
-    ErrorResponse errorResponse = getErrorResponse(
-        HttpStatus.BAD_REQUEST, ErrorCodes.PARAM_ERROR, exception, request);
+
+    ErrorResponse errorResponse = ResponseUtils
+        .buildErrorResponse(request, HttpStatus.BAD_REQUEST, null);
+
+    BindingResult bindingResult = exception.getBindingResult();
+
+    for (ObjectError bindError : bindingResult.getAllErrors()) {
+      String name = bindError.getObjectName();
+      String message = bindError.getDefaultMessage();
+      if (bindError instanceof FieldError) {
+        name = ((FieldError) bindError).getField();
+      }
+      errorResponse.addError(name, message);
+    }
+
     logger.error("handle MethodArgumentNotValidException, response = {}", errorResponse);
     return buildResponseEntity(errorResponse);
   }
@@ -74,9 +77,11 @@ public class ErrorHandler {
   private ResponseEntity<ErrorResponse> illegalStateException(IllegalStateException exception,
                                                               HttpServletRequest request) {
 
-    ErrorResponse errorResponse = getErrorResponse(
-        HttpStatus.PRECONDITION_FAILED, ErrorCodes.PRECONDITION_FAILED, exception, request);
+    logger.error("IllegalStateException", exception);
 
+    ErrorResponse errorResponse = ResponseUtils
+        .buildErrorResponse(request, HttpStatus.PRECONDITION_FAILED, null);
+    errorResponse.addError(ErrorCodes.PRECONDITION_FAILED, exception.getMessage());
 
     logger.error("handle IllegalStateException, response = {}", errorResponse);
     return buildResponseEntity(errorResponse);
@@ -86,4 +91,11 @@ public class ErrorHandler {
     return ResponseEntity.status(errorResponse.getStatus()).body(errorResponse);
   }
 
+  private String getExceptionMessage(Exception exception) {
+    String message = exception.getMessage();
+    if (message != null) {
+      return message;
+    }
+    return exception.toString();
+  }
 }

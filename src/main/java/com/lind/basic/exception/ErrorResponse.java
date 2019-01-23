@@ -1,31 +1,92 @@
 package com.lind.basic.exception;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.ToString;
 
-@Builder(toBuilder = true)
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
 @ToString
 public class ErrorResponse {
   private int status;
   private String method;
   private String path;
   private Object extra;
-  private ErrorItem errors;
+  private List<ErrorItem> errors;
 
-  @Builder(toBuilder = true)
-  @Getter
-  @NoArgsConstructor
-  @AllArgsConstructor
-  @ToString
-  public static class ErrorItem {
-    private String code;
-    private String message;
+  /**
+   * init.
+   */
+  public ErrorResponse() {
+  }
+
+  /**
+   * init.
+   */
+  public ErrorResponse addError(String code, String message) {
+    ErrorItem errorItem = ErrorItem.builder().code(code).message(message).build();
+    this.addError(errorItem);
+    return this;
+  }
+
+  /**
+   * init.
+   */
+  public ErrorResponse addError(String code, Object value) {
+    ErrorItem errorItem = ErrorItem.builder().code(code).value(value).build();
+    this.addError(errorItem);
+    return this;
+  }
+
+  /**
+   * init.
+   */
+  public ErrorResponse addError(ErrorItem errorItem) {
+    this.getErrors().add(errorItem);
+    return this;
+  }
+
+  /**
+   * get errors.
+   *
+   * @return
+   */
+  public List<ErrorItem> getErrors() {
+    if (this.errors == null) {
+      this.errors = new ArrayList();
+    }
+
+    return this.errors;
+  }
+
+  public int getStatus() {
+    return this.status;
+  }
+
+  public void setStatus(final int status) {
+    this.status = status;
+  }
+
+  public String getMethod() {
+    return this.method;
+  }
+
+  public void setMethod(final String method) {
+    this.method = method;
+  }
+
+  public String getPath() {
+    return this.path;
+  }
+
+  public void setPath(final String path) {
+    this.path = path;
+  }
+
+  public Object getExtra() {
+    return this.extra;
+  }
+
+  public void setExtra(final Object extra) {
+    this.extra = extra;
   }
 
 }

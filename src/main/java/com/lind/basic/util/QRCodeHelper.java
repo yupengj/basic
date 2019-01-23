@@ -12,12 +12,16 @@ import com.google.zxing.Result;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -207,6 +211,68 @@ public class QRCodeHelper extends LuminanceSource {
     return content;
   }
 
+  private static BufferedImage watermark(File file, InputStream waterFile,
+                                         int x, int y, float alpha) throws IOException {
+    BufferedImage buffImg = ImageIO.read(file);
+
+    // 获取层图
+    BufferedImage waterImg = ImageIO.read(waterFile);
+
+    // 创建Graphics2D对象，用在底图对象上绘图
+    Graphics2D g2d = buffImg.createGraphics();
+    int waterImgWidth = waterImg.getWidth();// 获取层图的宽度
+    int waterImgHeight = waterImg.getHeight();// 获取层图的高度
+    // 在图形和图像中实现混合和透明效果
+    g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP, alpha));
+    // 绘制
+    g2d.drawImage(waterImg, x, y, waterImgWidth, waterImgHeight, null);
+    g2d.dispose();// 释放图形上下文使用的系统资源
+    return buffImg;
+  }
+
+  /**
+   * 水印. 
+   */
+  private static BufferedImage watermark(File file, File waterFile, int x, int y, float alpha)
+      throws IOException {
+    InputStream input = new FileInputStream(waterFile);
+
+    return watermark(file, input, x, y, alpha);
+  }
+
+  /**
+   * 输出水印图片.
+   */
+  private static void generateWaterFile(BufferedImage buffImg, String savePath) {
+    int temp = savePath.lastIndexOf(".") + 1;
+    try {
+
+      ImageIO.write(buffImg, savePath.substring(temp), new File(savePath));
+
+    } catch (IOException e1) {
+
+      e1.printStackTrace();
+    }
+  }
+
+  /**
+   * 保存背景图的二维码.
+   *
+   * @param bgImage .
+   * @param x       .
+   * @param y       .
+   */
+  public static void addImageQRcode(
+      String bgImage, String text, int width, int height,
+      String format, int x, int y, String output) throws Exception {
+    // 把字节数组读到输入流
+    InputStream input = new ByteArrayInputStream(generateQRCode(text, width, height, format));
+    // 水印
+    BufferedImage buffImg = watermark(new File(bgImage), input, x, y, 1.0f);
+    // 保存水印图
+    generateWaterFile(buffImg, output);
+  }
+
   @Override
   public byte[] getRow(int y, byte[] row) {
     if (y < 0 || y >= getHeight()) {
@@ -258,5 +324,4 @@ public class QRCodeHelper extends LuminanceSource {
     int width = getWidth();
     return new QRCodeHelper(rotatedImage, top, sourceWidth - (left + width), getHeight(), width);
   }
-
 }
