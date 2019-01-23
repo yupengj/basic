@@ -14,7 +14,7 @@ public class Exceptions {
    * 请求参数有误.
    */
   public static RuntimeException badRequestParams(String msg) {
-    return HttpStatusException.of(HttpStatus.NOT_FOUND, null, null, msg);
+    return HttpStatusException.of(HttpStatus.BAD_REQUEST, null, null, msg);
   }
 
   /**

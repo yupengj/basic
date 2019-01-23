@@ -12,6 +12,9 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+/**
+ * 对controller抛出的异常统一拦截处理.
+ */
 @Slf4j
 @ControllerAdvice
 public class ErrorHandler {
@@ -24,7 +27,7 @@ public class ErrorHandler {
     ErrorResponse errorResponse = ResponseUtils
         .buildErrorResponse(request, HttpStatus.INTERNAL_SERVER_ERROR, null);
     errorResponse.setExtra(exception.getStackTrace());
-    errorResponse.addError(ErrorCodes.INTERNAL_SERVER_ERROR, "服务端异常");
+    errorResponse.addError("INTERNAL_SERVER_ERROR", "服务端异常");
 
     logger.error("handle Exception, response = {}", errorResponse);
     return buildResponseEntity(errorResponse);
@@ -81,7 +84,7 @@ public class ErrorHandler {
 
     ErrorResponse errorResponse = ResponseUtils
         .buildErrorResponse(request, HttpStatus.PRECONDITION_FAILED, null);
-    errorResponse.addError(ErrorCodes.PRECONDITION_FAILED, exception.getMessage());
+    errorResponse.addError("PRECONDITION_FAILED", exception.getMessage());
 
     logger.error("handle IllegalStateException, response = {}", errorResponse);
     return buildResponseEntity(errorResponse);
