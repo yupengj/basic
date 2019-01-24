@@ -6,10 +6,11 @@
 * [x] 私有仓库如果添加用户名和密码
 * [x] 使用和引用私有仓库
 * [x] jpa实体基类和继承
+* [x] mybatis建立和更新时间自动填充
 
 ### 仓库
 存储包的地方叫做仓库，一般可以分为本地仓库和远程仓库，本地一般用mavenLocal表示，在build.gradle中我们都可以看到，一般在安装包时，会优先从本地仓库下载，这样速度是最快的；远程仓库可以在世界各地使用你的包包，提高了代码的重用，面向对象里叫做`DRY`原则。
-
+[详细介绍](https://www.cnblogs.com/lori/p/10242486.html)
 ### 发到本地仓库
 ```
 apply plugin: "maven-publish"
@@ -68,6 +69,8 @@ repositories {
     }
 ```
 ### jpa实体基类和继承
+[详细介绍](https://www.cnblogs.com/lori/p/10266508.html)
+
 ```
 @Getter
 @ToString(callSuper = true)
@@ -122,5 +125,23 @@ public class TestEntityBuilder extends EntityBase {
     this.title = title;
     this.description = description;
   }
+}
+```
+
+### mybatis建立和更新时间自动填充
+[详细介绍](https://www.cnblogs.com/lori/p/10281976.html)
+```
+@Getter
+@Builder(toBuilder = true)
+@ToString
+public class UserInfo {
+  private Long id;
+  private String name;
+  private String email;
+
+  @CreatedOnFuncation
+  private LocalDateTime createdOn;
+  @UpdatedOnFuncation
+  private LocalDateTime updatedOn;
 }
 ```

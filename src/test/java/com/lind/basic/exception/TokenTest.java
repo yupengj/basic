@@ -34,4 +34,15 @@ public class TokenTest extends BaseTest {
         .andExpect(jsonPath("$.errors[0].message").value("参数问题"));
 
   }
+
+  @Test
+  public void simple200() throws Exception {
+    mockMvc
+        .perform(
+            get(LindDemo.HELLO200)
+                .accept(MediaType.APPLICATION_JSON_UTF8))
+        .andExpect(status().isOk());
+
+  }
+
 }
