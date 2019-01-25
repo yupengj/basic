@@ -7,6 +7,7 @@
 * [x] 使用和引用私有仓库
 * [x] jpa实体基类和继承
 * [x] mybatis建立和更新时间自动填充
+* [x] oauth2流程
 
 ### 仓库
 存储包的地方叫做仓库，一般可以分为本地仓库和远程仓库，本地一般用mavenLocal表示，在build.gradle中我们都可以看到，一般在安装包时，会优先从本地仓库下载，这样速度是最快的；远程仓库可以在世界各地使用你的包包，提高了代码的重用，面向对象里叫做`DRY`原则。
@@ -144,4 +145,50 @@ public class UserInfo {
   @UpdatedOnFuncation
   private LocalDateTime updatedOn;
 }
+```
+### oauth2流程
+参考：https://tools.ietf.org/html/rfc6749
+```
+     +--------+                               +---------------+
+     |        |--(A)- Authorization Request ->|   Resource    |
+     |        |                               |     Owner     |
+     |        |<-(B)-- Authorization Grant ---|               |
+     |        |                               +---------------+
+     |        |
+     |        |                               +---------------+
+     |        |--(C)-- Authorization Grant -->| Authorization |
+     | Client |                               |     Server    |
+     |        |<-(D)----- Access Token -------|               |
+     |        |                               +---------------+
+     |        |
+     |        |                               +---------------+
+     |        |--(E)----- Access Token ------>|    Resource   |
+     |        |                               |     Server    |
+     |        |<-(F)--- Protected Resource ---|               |
+     +--------+                               +---------------+
+```
+authorization information.  Unlike access tokens, refresh tokens are
+   intended for use only with authorization servers and are never sent
+   to resource servers.
+```
+  +--------+                                           +---------------+
+  |        |--(A)------- Authorization Grant --------->|               |
+  |        |                                           |               |
+  |        |<-(B)----------- Access Token -------------|               |
+  |        |               & Refresh Token             |               |
+  |        |                                           |               |
+  |        |                            +----------+   |               |
+  |        |--(C)---- Access Token ---->|          |   |               |
+  |        |                            |          |   |               |
+  |        |<-(D)- Protected Resource --| Resource |   | Authorization |
+  | Client |                            |  Server  |   |     Server    |
+  |        |--(E)---- Access Token ---->|          |   |               |
+  |        |                            |          |   |               |
+  |        |<-(F)- Invalid Token Error -|          |   |               |
+  |        |                            +----------+   |               |
+  |        |                                           |               |
+  |        |--(G)----------- Refresh Token ----------->|               |
+  |        |                                           |               |
+  |        |<-(H)----------- Access Token -------------|               |
+  +--------+           & Optional Refresh Token        +---------------+
 ```
