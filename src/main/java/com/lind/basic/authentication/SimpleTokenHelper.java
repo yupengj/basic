@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 public class SimpleTokenHelper {
-  public static final String DISTRIBUTOR_TOKEN = "distributor_token_";
+  public static final String DISTRIBUTOR_TOKEN = "distributor_token:";
   @Autowired
   RedisTemplate<String, String> redisTemplate;
   @Autowired

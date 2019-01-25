@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
@@ -13,7 +14,7 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
  */
 @Configuration
 @EnableRedisHttpSession
-public class HttpSessionConfig {
+public class RedisConfig {
 
   @Autowired
   private RedisConnectionFactory redisConnectionFactory;
@@ -24,8 +25,11 @@ public class HttpSessionConfig {
   @Bean
   public RedisTemplate redisTemplate() {
     RedisTemplate redisTemplate = new RedisTemplate();
-    redisTemplate.setKeySerializer(new StringRedisSerializer());
-    redisTemplate.setValueSerializer(new StringRedisSerializer());
+    RedisSerializer stringSerializer = new StringRedisSerializer();
+    redisTemplate.setKeySerializer(stringSerializer);
+    redisTemplate.setValueSerializer(stringSerializer);
+    redisTemplate.setHashKeySerializer(stringSerializer);
+    redisTemplate.setHashValueSerializer(stringSerializer);
     redisTemplate.setConnectionFactory(redisConnectionFactory);
     return redisTemplate;
   }

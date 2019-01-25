@@ -27,19 +27,6 @@ public class JedisLock {
   private RedisTemplate<String, Object> redisTemplate;
 
   /**
-   * 解决存储到redis中乱码问题.
-   */
-  @Autowired(required = false)
-  public void setRedisTemplate(RedisTemplate redisTemplate) {
-    RedisSerializer stringSerializer = new StringRedisSerializer();
-    redisTemplate.setKeySerializer(stringSerializer);
-    redisTemplate.setValueSerializer(stringSerializer);
-    redisTemplate.setHashKeySerializer(stringSerializer);
-    redisTemplate.setHashValueSerializer(stringSerializer);
-    this.redisTemplate = redisTemplate;
-  }
-
-  /**
    * 获取锁.
    * NX|XX,NX- Only set the name if it does not already exist.
    * XX- Only set the name if it already exist.

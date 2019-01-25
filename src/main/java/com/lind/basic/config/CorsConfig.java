@@ -24,7 +24,7 @@ public class CorsConfig implements Filter {
   public static final String ORIGIN = "origin";
   public static final String ANY_ORIGINS = "*";
 
-  @Value("${cors.allowed.origins}")
+  @Value("${cors.allowed.origins:*}")
   private String[] allowedOrigins;
 
   @Override
