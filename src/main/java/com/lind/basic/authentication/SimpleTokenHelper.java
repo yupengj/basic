@@ -46,10 +46,10 @@ public class SimpleTokenHelper {
    * @param token .
    * @return
    */
-  public <T> T readToken(String token, Class<T> type) {
+  public Object readToken(String token) {
     try {
       return objectMapper.readValue(
-          redisTemplate.opsForValue().get(DISTRIBUTOR_TOKEN + token), type);
+          redisTemplate.opsForValue().get(DISTRIBUTOR_TOKEN + token), Object.class);
     } catch (Exception ex) {
       logger.error("AuthHelper.readToken.error", ex);
       return null;

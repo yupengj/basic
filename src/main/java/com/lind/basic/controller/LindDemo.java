@@ -1,5 +1,6 @@
 package com.lind.basic.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
 import com.lind.basic.authentication.SimpleTokenHelper;
 import com.lind.basic.exception.Exceptions;
@@ -17,6 +18,8 @@ public class LindDemo {
 
   @Autowired
   SimpleTokenHelper simpleTokenHelper;
+  @Autowired
+  ObjectMapper objectMapper;
 
   @GetMapping(HELLO401)
   public String hello401() {
@@ -30,9 +33,9 @@ public class LindDemo {
   }
 
   @GetMapping(HELLO200)
-  public String hello200() {
-    String token = simpleTokenHelper.writeToken(ImmutableMap.of("id", 1, "name", "zzl"));
+  public String hello200() throws Exception {
+    String token = simpleTokenHelper.writeToken(ImmutableMap.of("id", 1, "name", "张三"));
     simpleTokenHelper.isLogin(token);
-    return "hello";
+    return objectMapper.writeValueAsString(simpleTokenHelper.readToken(token));
   }
 }
