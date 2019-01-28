@@ -1,20 +1,27 @@
 package com.lind.basic.util;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import org.junit.Test;
 
 public class QRCodeHelperTest {
 
   @Test
-  public void qrCode() throws Exception {
-    String qrcodeImage =
-        QRCodeHelper.generateQRCode(
-            "http://www.cnblogs.com/lori", 300, 300, "png", "src/test/resources/1.png");
-    System.out.println(qrcodeImage);
+  public void bgQrCode() throws Exception {
+    QRCodeHelper.getBgImageQRcode("src/test/resources/image/bg.png", "http://www.baidu.com", 100, 100,
+            "png", 10, 100, "src/test/resources/image/bg2.png");
   }
 
   @Test
-  public void bgQrCode() throws Exception {
-    QRCodeHelper.addImageQRcode("src/test/resources/java.jpg", "http://www.baidu.com", 100, 100,
-        "jpg", 10, 100, "src/test/resources/java2.jpg");
+  public void bgQrCodeByteArray() throws Exception {
+    String outFilePath = "src/test/resources/image/bg2.png";
+    File file = new File(outFilePath);
+    FileOutputStream fos = new FileOutputStream(file);
+    BufferedOutputStream bos = new BufferedOutputStream(fos);
+    bos.write(QRCodeHelper.getBgImageQRcode(
+            "src/test/resources/image/bg.png",
+            "http://www.baidu.com",
+            95, 95, "png", 548, 1068));
   }
 }

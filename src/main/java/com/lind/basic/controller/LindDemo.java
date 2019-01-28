@@ -21,17 +21,32 @@ public class LindDemo {
   @Autowired
   ObjectMapper objectMapper;
 
+  /**
+   * hello .
+   *
+   * @return
+   */
   @GetMapping(HELLO401)
   public String hello401() {
     simpleTokenHelper.isLogin("zzl");
     return "hello";
   }
 
+  /**
+   * hello .
+   *
+   * @return
+   */
   @GetMapping(HELLO400)
   public void hello400() {
     throw Exceptions.badRequestParams("参数问题");
   }
 
+  /**
+   * hello .
+   *
+   * @return
+   */
   @GetMapping(HELLO200)
   public String hello200() throws Exception {
     String token = simpleTokenHelper.writeToken(ImmutableMap.of("id", 1, "name", "张三"));
