@@ -12,8 +12,7 @@ import com.google.zxing.Result;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
-import java.awt.AlphaComposite;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -30,13 +29,17 @@ import java.util.Hashtable;
 import java.util.Map;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
  * 二维码生成工具.
+ * 两种类型的方法，带背景二维码和单纯二维码.
  */
 @Slf4j
 public class QRCodeHelper extends LuminanceSource {
+
   /**
    * 二维码颜色.
    */
@@ -45,11 +48,10 @@ public class QRCodeHelper extends LuminanceSource {
    * 二维码颜色.
    */
   private static final int WHITE = 0xFFFFFFFF;
-
+  private static int border = 1;
   private final BufferedImage image;
   private final int left;
   private final int top;
-
 
   /**
    * 构造器.
@@ -57,6 +59,7 @@ public class QRCodeHelper extends LuminanceSource {
   public QRCodeHelper(BufferedImage image) {
     this(image, 0, 0, image.getWidth(), image.getHeight());
   }
+
 
   /**
    * 构造器.
@@ -83,7 +86,6 @@ public class QRCodeHelper extends LuminanceSource {
   }
 
   private static BufferedImage toBufferedImage(BitMatrix matrix) {
-    // matrix = deleteWhite(matrix);//删除白边
     int width = matrix.getWidth();
     int height = matrix.getHeight();
     BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
@@ -109,7 +111,7 @@ public class QRCodeHelper extends LuminanceSource {
    * 生成二维码图片流.
    */
   private static void writeToStream(BitMatrix matrix, String format, OutputStream stream)
-          throws IOException {
+      throws IOException {
     BufferedImage image = toBufferedImage(matrix);
     if (!ImageIO.write(image, format, stream)) {
       throw new IOException("Could not write an image of format " + format);
@@ -120,16 +122,16 @@ public class QRCodeHelper extends LuminanceSource {
    * 生成二维码字节数组.
    */
   public static byte[] generateQRCode(String text, int width, int height, String format)
-          throws Exception {
+      throws Exception {
     Hashtable<EncodeHintType, Object> hints = new Hashtable<EncodeHintType, Object>();
     // 指定编码格式
     hints.put(EncodeHintType.CHARACTER_SET, "utf-8");
     // 指定纠错等级
     hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
     // 白边大小，取值范围0~4
-    hints.put(EncodeHintType.MARGIN, 1);
+    hints.put(EncodeHintType.MARGIN, border);
     BitMatrix bitMatrix = new MultiFormatWriter().encode(text, BarcodeFormat.QR_CODE,
-            width, height, hints);
+        width, height, hints);
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     byte[] bytes = null;
     try {
@@ -158,9 +160,9 @@ public class QRCodeHelper extends LuminanceSource {
     // 指定纠错等级
     hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
     // 白边大小，取值范围0~4
-    hints.put(EncodeHintType.MARGIN, 1);
+    hints.put(EncodeHintType.MARGIN, border);
     BitMatrix bitMatrix = new MultiFormatWriter().encode(text, BarcodeFormat.QR_CODE,
-            width, height, hints);
+        width, height, hints);
     File outputFile = new File(pathName);
     writeToFile(bitMatrix, format, outputFile);
     return pathName;
@@ -199,9 +201,9 @@ public class QRCodeHelper extends LuminanceSource {
     // 指定纠错等级
     hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
     // 白边大小，取值范围0~4
-    hints.put(EncodeHintType.MARGIN, 1);
+    hints.put(EncodeHintType.MARGIN, border);
     BitMatrix bitMatrix = new MultiFormatWriter().encode(text, BarcodeFormat.QR_CODE,
-            width, height, hints);
+        width, height, hints);
     writeToStream(bitMatrix, format, response.getOutputStream());
   }
 
@@ -276,7 +278,7 @@ public class QRCodeHelper extends LuminanceSource {
    * 水印. 
    */
   private static BufferedImage watermark(File file, File waterFile, int x, int y, float alpha)
-          throws IOException {
+      throws IOException {
     InputStream input = new FileInputStream(waterFile);
 
     return watermark(file, input, x, y, alpha);
@@ -314,35 +316,35 @@ public class QRCodeHelper extends LuminanceSource {
   /**
    * 保存背景图的二维码.
    *
-   * @param bgImage .
+   * @param bgImagePath .
    * @param x       .
    * @param y       .
    */
   public static void generateBackgroundQRCode(
-          String bgImage, String text, int width, int height,
-          String format, int x, int y, String output) throws Exception {
+      String bgImagePath, String text, int width, int height,
+      String format, int x, int y, String outputFile) throws Exception {
     // 把字节数组读到输入流
     InputStream input = new ByteArrayInputStream(generateQRCode(text, width, height, format));
     // 水印
-    BufferedImage buffImg = watermark(new File(bgImage), input, x, y, 1.0f);
+    BufferedImage buffImg = watermark(new File(bgImagePath), input, x, y, 1.0f);
     // 保存水印图
-    generateWaterFile(buffImg, output);
+    generateWaterFile(buffImg, outputFile);
   }
 
   /**
    * 保存背景图的二维码.
    *
-   * @param bgImage .
+   * @param bgImagePath .
    * @param x       .
    * @param y       .
    */
   public static byte[] generateBackgroundQRCode(
-          String bgImage, String text, int width, int height,
-          String format, int x, int y) throws Exception {
+      String bgImagePath, String text, int width, int height,
+      String format, int x, int y) throws Exception {
     // 把字节数组读到输入流
     InputStream input = new ByteArrayInputStream(generateQRCode(text, width, height, format));
     // 水印
-    BufferedImage buffImg = watermark(new File(bgImage), input, x, y, 1.0f);
+    BufferedImage buffImg = watermark(new File(bgImagePath), input, x, y, 1.0f);
     // 保存水印图
     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     generateWaterStream(buffImg, format, outputStream);
@@ -351,20 +353,17 @@ public class QRCodeHelper extends LuminanceSource {
 
   /**
    * 保存URI背景图的二维码.
-   *
-   * @param bgImage .
-   * @param x       .
-   * @param y       .
    */
-  public static byte[] generateBackgroundQRCode(
-          URL bgImage, String text, int width, int height,
-          String format, int x, int y) throws Exception {
+  public static byte[] generateBackgroundQRCode(QrCodeParamter qrCodeParamter) throws Exception {
+    border = qrCodeParamter.getBorder();
     // 把字节数组读到输入流
-    InputStream input = new ByteArrayInputStream(generateQRCode(text, width, height, format));
+    InputStream input = new ByteArrayInputStream(
+        generateQRCode(qrCodeParamter.getContent(), qrCodeParamter.getWidth(),
+            qrCodeParamter.getHeight(), qrCodeParamter.getFormat()));
     // 水印
     //new一个URL对象
     //打开链接
-    HttpURLConnection conn = (HttpURLConnection) bgImage.openConnection();
+    HttpURLConnection conn = (HttpURLConnection) qrCodeParamter.getBgImageUrl().openConnection();
     //设置请求方式为"GET"
     conn.setRequestMethod("GET");
     //超时响应时间为5秒
@@ -374,18 +373,14 @@ public class QRCodeHelper extends LuminanceSource {
     //得到图片的二进制数据，以二进制封装得到数据，具有通用性
     byte[] data = readInputStream(inStream);
 
-    BufferedImage buffImg = watermark(data, input, x, y, 1.0f);
+    BufferedImage buffImg =
+        watermark(data, input, qrCodeParamter.getX(), qrCodeParamter.getY(), 1.0f);
     // 保存水印图
     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-    generateWaterStream(buffImg, format, outputStream);
+    generateWaterStream(buffImg, qrCodeParamter.getFormat(), outputStream);
     return outputStream.toByteArray();
   }
 
-  /**
-   * 从输入流读到byte数组.
-   *
-   * @param inStream .
-   */
   private static byte[] readInputStream(InputStream inStream) throws Exception {
     ByteArrayOutputStream outStream = new ByteArrayOutputStream();
     //创建一个Buffer字符串
@@ -447,12 +442,52 @@ public class QRCodeHelper extends LuminanceSource {
     int sourceHeight = image.getHeight();
     AffineTransform transform = new AffineTransform(0.0, -1.0, 1.0, 0.0, 0.0, sourceWidth);
     BufferedImage rotatedImage = new BufferedImage(sourceHeight, sourceWidth,
-            BufferedImage.TYPE_BYTE_GRAY);
+        BufferedImage.TYPE_BYTE_GRAY);
     Graphics2D g = rotatedImage.createGraphics();
     g.drawImage(image, transform, null);
     g.dispose();
     int width = getWidth();
     return new QRCodeHelper(rotatedImage, top, sourceWidth - (left + width), getHeight(), width);
+  }
+
+  /**
+   * 构建二维码参数.
+   */
+  @Getter
+  @Builder(toBuilder = true)
+  public static class QrCodeParamter {
+    /**
+     * 识别二维码的链接.
+     */
+    private String content;
+    /**
+     * 宽度.
+     */
+    private int width;
+    /**
+     * 高度.
+     */
+    private int height;
+    /**
+     * 图片格式.
+     */
+    private String format;
+    /**
+     * 横坐标.
+     */
+    private int x;
+    /**
+     * 纵坐标.
+     */
+    private int y;
+    /**
+     * 背景图的url.
+     */
+    private URL bgImageUrl;
+    /**
+     * 边框0~4.
+     */
+    private int border;
   }
 
 }

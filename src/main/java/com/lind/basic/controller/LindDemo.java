@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
 import com.lind.basic.authentication.SimpleTokenHelper;
 import com.lind.basic.exception.Exceptions;
+import java.io.IOException;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -53,4 +55,15 @@ public class LindDemo {
     simpleTokenHelper.isLogin(token);
     return objectMapper.writeValueAsString(simpleTokenHelper.readToken(token));
   }
+
+  @GetMapping("/foo")
+  void handleFoo(HttpServletResponse response) throws IOException {
+    response.sendRedirect("foo2");
+  }
+
+  @GetMapping("/foo2")
+  String handleFoo2() throws IOException {
+    return "ok";
+  }
+
 }
