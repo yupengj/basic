@@ -48,10 +48,4 @@ public class JpaTest extends BaseTest {
     System.out.println("userinfo:" + entity.toString());
   }
 
-  @Test
-  public void findByTitle() {
-    TestEntityBuilder testEntityBuilder = getTestEntityBuilder();
-    testBuilderEntityRepository.save(testEntityBuilder);
-    Assert.assertEquals(1, testBuilderEntityRepository.findByTitle("lind").size());
-  }
 }

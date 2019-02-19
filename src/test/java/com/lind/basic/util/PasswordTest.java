@@ -18,11 +18,9 @@ public class PasswordTest {
   }
 
   @Test
-  public void bCryptPasswordEncoderTest() {
-    System.out.println("pass8:" +
-        new BCryptPasswordEncoder(8).encode("12345"));
+  public void cryptPasswordEncoderTest() {
+    System.out.println("pass8:" + new BCryptPasswordEncoder(8).encode("12345"));
 
-    System.out.println("pass4:" +
-        new BCryptPasswordEncoder(4).encode("12345"));
+    System.out.println("pass4:" + new BCryptPasswordEncoder(4).encode("12345"));
   }
 }

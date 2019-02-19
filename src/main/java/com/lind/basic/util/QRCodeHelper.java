@@ -12,7 +12,8 @@ import com.google.zxing.Result;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
-import java.awt.*;
+import java.awt.AlphaComposite;
+import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -168,22 +169,6 @@ public class QRCodeHelper extends LuminanceSource {
     return pathName;
   }
 
-  private static BitMatrix deleteWhite(BitMatrix matrix) {
-    int[] rec = matrix.getEnclosingRectangle();
-    int resWidth = rec[2] + 1;
-    int resHeight = rec[3] + 1;
-
-    BitMatrix resMatrix = new BitMatrix(resWidth, resHeight);
-    resMatrix.clear();
-    for (int i = 0; i < resWidth; i++) {
-      for (int j = 0; j < resHeight; j++) {
-        if (matrix.get(i + rec[0], j + rec[1]))
-          resMatrix.set(i, j);
-      }
-    }
-    return resMatrix;
-  }
-
   /**
    * 输出二维码图片流.
    *
@@ -205,6 +190,23 @@ public class QRCodeHelper extends LuminanceSource {
     BitMatrix bitMatrix = new MultiFormatWriter().encode(text, BarcodeFormat.QR_CODE,
         width, height, hints);
     writeToStream(bitMatrix, format, response.getOutputStream());
+  }
+
+  private static BitMatrix deleteWhite(BitMatrix matrix) {
+    int[] rec = matrix.getEnclosingRectangle();
+    int resWidth = rec[2] + 1;
+    int resHeight = rec[3] + 1;
+
+    BitMatrix resMatrix = new BitMatrix(resWidth, resHeight);
+    resMatrix.clear();
+    for (int i = 0; i < resWidth; i++) {
+      for (int j = 0; j < resHeight; j++) {
+        if (matrix.get(i + rec[0], j + rec[1])) {
+          resMatrix.set(i, j);
+        }
+      }
+    }
+    return resMatrix;
   }
 
   /**
@@ -302,7 +304,8 @@ public class QRCodeHelper extends LuminanceSource {
   /**
    * 输出水印图片.
    */
-  private static void generateWaterStream(BufferedImage buffImg, String format, OutputStream outputStream) {
+  private static void generateWaterStream(
+      BufferedImage buffImg, String format, OutputStream outputStream) {
     try {
 
       ImageIO.write(buffImg, format, outputStream);
@@ -317,8 +320,8 @@ public class QRCodeHelper extends LuminanceSource {
    * 保存背景图的二维码.
    *
    * @param bgImagePath .
-   * @param x       .
-   * @param y       .
+   * @param x           .
+   * @param y           .
    */
   public static void generateBackgroundQRCode(
       String bgImagePath, String text, int width, int height,
@@ -335,8 +338,8 @@ public class QRCodeHelper extends LuminanceSource {
    * 保存背景图的二维码.
    *
    * @param bgImagePath .
-   * @param x       .
-   * @param y       .
+   * @param x           .
+   * @param y           .
    */
   public static byte[] generateBackgroundQRCode(
       String bgImagePath, String text, int width, int height,
@@ -374,7 +377,8 @@ public class QRCodeHelper extends LuminanceSource {
     byte[] data = readInputStream(inStream);
 
     BufferedImage buffImg =
-        watermark(data, input, qrCodeParamter.getX(), qrCodeParamter.getY(), 1.0f);
+        watermark(data, input,
+            qrCodeParamter.getCoordinateX(), qrCodeParamter.getCoordinateY(), 1.0f);
     // 保存水印图
     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     generateWaterStream(buffImg, qrCodeParamter.getFormat(), outputStream);
@@ -475,11 +479,11 @@ public class QRCodeHelper extends LuminanceSource {
     /**
      * 横坐标.
      */
-    private int x;
+    private int coordinateX;
     /**
      * 纵坐标.
      */
-    private int y;
+    private int coordinateY;
     /**
      * 背景图的url.
      */

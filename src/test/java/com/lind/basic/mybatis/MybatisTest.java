@@ -6,8 +6,10 @@ import com.lind.basic.BaseTest;
 import java.util.concurrent.TimeUnit;
 import org.junit.Assert;
 import org.junit.Test;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 
+@MapperScan("com.lind.basic.mybatis")
 public class MybatisTest extends BaseTest {
   @Autowired
   UserInfoMapper userInfoMapper;

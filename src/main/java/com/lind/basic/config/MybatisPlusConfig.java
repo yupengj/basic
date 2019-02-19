@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.extension.injector.LogicSqlInjector;
 import com.baomidou.mybatisplus.extension.plugins.OptimisticLockerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.lind.basic.entity.mybatis.CreateUpdateTimeInterceptor;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -14,7 +13,6 @@ import org.springframework.context.annotation.Configuration;
  * register mapper.
  */
 @Configuration
-@MapperScan("com.lind.basic.mybatis")
 public class MybatisPlusConfig {
 
   /**
