@@ -1,4 +1,4 @@
-package com.lind.basic.config;
+package com.lind.basic.mybatis;
 
 import com.baomidou.mybatisplus.core.injector.ISqlInjector;
 import com.baomidou.mybatisplus.extension.injector.LogicSqlInjector;
