@@ -1,4 +1,5 @@
-[返回目前](../README.md)
+[返回目录](../README.md)
+
 ### jpa实体基类和继承
 [详细介绍](https://www.cnblogs.com/lori/p/10266508.html)
 

@@ -1,4 +1,4 @@
-[返回目前](../README.md)
+[返回目录](../README.md)
 
 ### mybatis建立和更新时间自动填充
 [详细介绍](https://www.cnblogs.com/lori/p/10281976.html)
