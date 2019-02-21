@@ -2,7 +2,6 @@ package com.lind.basic.nosql;
 
 import com.lind.basic.BaseTest;
 import com.lind.basic.config.JedisLock;
-import com.lind.basic.config.RedisLock;
 import java.time.LocalDateTime;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,7 @@ public class RedisTest extends BaseTest {
   @Autowired
   RedisTemplate redisTemplate;
   @Autowired
-  RedisLock redisLock;
+  JedisLock redisLock;
   @Autowired
   JedisLock jedisLock;
 
@@ -31,11 +30,12 @@ public class RedisTest extends BaseTest {
    */
   void queue() {
     String value = String.valueOf(System.currentTimeMillis() + 5);
-    redisLock.lock("ok", value);
-    System.out.println("print synchronized result:" + LocalDateTime.now().toString()
-        + ",id:"
-        + Thread.currentThread().getId());
-    redisLock.unlock("ok", value);
+    if (redisLock.tryLock("product", "1")) {
+      System.out.println("print synchronized result:" + LocalDateTime.now().toString()
+          + ",id:"
+          + Thread.currentThread().getId());
+      redisLock.releaseLock("product", "1");
+    }
   }
 
   @Test
