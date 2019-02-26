@@ -6,4 +6,5 @@
 * [x] [mybatis建立和更新时间自动填充](./document/mybatis.md)
 * [x] [oauth2流程](./document/oauth2.md)
 * [x] [Bean的注册方式](./document/bean.md)
+* [x] [单元测试相关知识](./document/unit-test.md)
 * 
