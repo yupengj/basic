@@ -10,10 +10,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest()
 public class BeanTest {
   @Autowired
-  LogService logService;
+  EmailLogService logService;
 
   @Test
   public void testIoc() {
-    logService.logDebug("hello");
+    logService.send("hello", "hello");
   }
 }

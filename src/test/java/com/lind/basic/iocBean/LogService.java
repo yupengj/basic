@@ -13,8 +13,6 @@ public class LogService {
   // false表示可以没有这个bean
   @Autowired(required = false)
   PrintLogService printLogService;
-  @Autowired(required = false)
-  EmailLogService emailLogService;
 
   @Bean
   public LogService logServiceBean() {
@@ -24,9 +22,6 @@ public class LogService {
   void aop(String message) {
     if (printLogService != null) {
       printLogService.print(message);
-    }
-    if (emailLogService != null) {
-      emailLogService.send("zzl@sina.com", message);
     }
   }
 
