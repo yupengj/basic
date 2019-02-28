@@ -3,9 +3,12 @@ package com.lind.basic.util;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.lind.basic.enums.BaseEnum;
+import java.util.Arrays;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
 
+@Slf4j
 public class EnumTest {
   @Test
   public void codeTest() {
@@ -15,6 +18,15 @@ public class EnumTest {
   @Test
   public void textTest() {
     Assert.assertEquals("小规模", EnumPayTaxesNature.getPayTaxesNature("1").getText());
+  }
+
+  @Test
+  public void contions() {
+    for (EnumPayTaxesNature s : EnumPayTaxesNature.values()) {
+      System.out.println(s.code + ",");
+    }
+    System.out.println("contion:" +
+        (Arrays.stream(EnumPayTaxesNature.values()).map(i -> i.code).filter(i -> i.equals(-1)).count() > 0) + "");
   }
 
   enum EnumPayTaxesNature implements BaseEnum {
