@@ -24,9 +24,13 @@ import org.springframework.stereotype.Component;
 public class AmqpConfigMock {
   public static final String LIND_EXCHANGE = "test.basic.exchange";
   public static final String LIND_DL_EXCHANGE = "test.basic.dl.exchange";
-  public static final String LIND_QUEUE = "test.basic.queue";
+  public static final String LIND_QUEUE = "test.basic.cold.queue";
   public static final String LIND_DEAD_QUEUE = "test.basic.queue.dead";
   public static final String LIND_FANOUT_EXCHANGE = "test.basic.fanoutExchange";
+  public static final String LIND_QUEUE_ROUTEKEY = "test.basic.*";
+  public static final String LIND_QUEUE_ROUTEKEY1 = "test.basic.a1";
+  public static final String LIND_QUEUE_ROUTEKEY2 = "test.basic.a2";
+
   private final Broker broker = new Broker();
   /**
    * 单位为微秒.
@@ -125,6 +129,36 @@ public class AmqpConfigMock {
     return BindingBuilder.bind(lindQueue())
         .to(lindExchange())
         .with(LIND_QUEUE);
+  }
+
+
+  @Bean
+  public Queue key1() {
+    return new Queue(LIND_QUEUE_ROUTEKEY1);
+  }
+
+  @Bean
+  public Queue key2() {
+    return new Queue(LIND_QUEUE_ROUTEKEY2);
+  }
+
+  /**
+   * 绑定了routekey，一个routekey可以被多个队列绑定，类似于广播.
+   *
+   * @return
+   */
+  @Bean
+  public Binding bindBuildersRouteKey1() {
+    return BindingBuilder.bind(key1())
+        .to(lindExchange())
+        .with(LIND_QUEUE_ROUTEKEY);
+  }
+
+  @Bean
+  public Binding bindBuildersRouteKey2() {
+    return BindingBuilder.bind(key2())
+        .to(lindExchange())
+        .with(LIND_QUEUE_ROUTEKEY);
   }
 
   /**

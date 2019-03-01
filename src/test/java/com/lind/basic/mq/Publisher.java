@@ -16,7 +16,7 @@ public class Publisher {
   public void publish(String message) {
     try {
       rabbitTemplate
-          .convertAndSend(AmqpConfigMock.LIND_EXCHANGE, AmqpConfigMock.LIND_QUEUE,
+          .convertAndSend(AmqpConfigMock.LIND_EXCHANGE, AmqpConfigMock.LIND_QUEUE_ROUTEKEY,
               message);
     } catch (Exception e) {
       e.printStackTrace();

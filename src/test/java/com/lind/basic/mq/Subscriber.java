@@ -1,6 +1,7 @@
 package com.lind.basic.mq;
 
 import com.lind.basic.mock.AmqpConfigMock;
+import java.util.concurrent.TimeUnit;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
@@ -30,14 +31,30 @@ public class Subscriber {
    *
    * @param data .
    */
-  @RabbitListener(queues = AmqpConfigMock.LIND_QUEUE)
+  @RabbitListener(queues = AmqpConfigMock.LIND_QUEUE_ROUTEKEY1)
   public void lindQueue(String data) {
     try {
-
       logger.info("LIND_QUEUE从队列拿到数据 ：{}", data);
+      TimeUnit.MILLISECONDS.sleep(5);
 
     } catch (Exception ex) {
       logger.error("LIND_QUEUE异常", ex);
+    }
+  }
+
+  /**
+   * cold queue.
+   *
+   * @param data .
+   */
+  @RabbitListener(queues = AmqpConfigMock.LIND_QUEUE_ROUTEKEY2)
+  public void lindQueue2(String data) {
+    try {
+      logger.info("LIND_QUEUE2从队列拿到数据 ：{}", data);
+      TimeUnit.MILLISECONDS.sleep(5);
+
+    } catch (Exception ex) {
+      logger.error("LIND_QUEUE2异常", ex);
     }
   }
 
