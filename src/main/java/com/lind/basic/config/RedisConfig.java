@@ -20,6 +20,15 @@ public class RedisConfig {
   private RedisConnectionFactory redisConnectionFactory;
 
   /**
+   * 统计bit位为1的总数
+   *
+   * @param key
+   */
+  public long bitCount(final String key) {
+    return redisConnectionFactory.getConnection().bitCount(key.getBytes());
+  }
+
+  /**
    * redis 配置.
    */
   @Bean
