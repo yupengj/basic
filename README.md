@@ -9,4 +9,4 @@
 * [x] [单元测试相关知识](./document/unit-test.md)
 * [x] [微服务的实现](./document/micro-service.md)
 * [x] [领域驱动设计的实现](./document/ddd.md)
-* 
+* [x] [docker部署基础设施](./document/docker-infrastructure.md)
