@@ -8,6 +8,8 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -16,6 +18,8 @@ public class LindDemo {
   public static final String HELLO401 = PATH + "/hello401";
   public static final String HELLO400 = PATH + "/hello400";
   public static final String HELLO200 = PATH + "/hello200";
+  public static final String POSTDO = PATH + "/post-do";
+  public static final String GETDO = PATH + "/get-do";
 
 
   @Autowired
@@ -66,4 +70,13 @@ public class LindDemo {
     return "ok";
   }
 
+  @GetMapping(GETDO)
+  String getDo() throws IOException {
+    return "ok";
+  }
+
+  @PostMapping(POSTDO)
+  String postDo(@RequestBody String name) throws IOException {
+    return name;
+  }
 }

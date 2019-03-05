@@ -15,3 +15,81 @@
 1. redis: com.github.kstyrc:embedded-redis:0.6
 1. mongodb: de.flapdoodle.embed:de.flapdoodle.embed.mongo
 1. database: com.h2database:h2
+
+### WebTestClient实现的web测试（异步）
+>安装包：'org.springframework.boot:spring-boot-starter-webflux',
+
+```$xslt
+  @Autowired
+  protected WebTestClient http;
+  
+  @Test
+  public void get(){
+   http.get().uri("/api/v1/")
+          .exchange()
+          .expectStatus().isOk()
+          .expectBody()
+          .jsonPath("$.status").isEqualTo("200");
+   }
+   
+    @Test
+    public void put() {
+      http.put().uri("api/v1")
+          .syncBody(UserRequest.builder().id(10481779L).status(User.Status.Normal.name()).build())
+          .exchange()
+          .expectStatus().isOk();
+    }
+    
+    @Test
+     public void post() {
+        http.post()
+            .uri(uriBuilder -> uriBuilder.path("/api/v1")
+                .queryParam("mobileNumbers", "17694873618")
+                .queryParam("mobileNumbers", "17694873618")
+                .build())
+            .syncBody(UserRequest.builder().id(10481779L).status(User.Status.Normal.name()).build())
+            .exchange()
+            .expectStatus().isOk()
+            .expectBody()
+            .jsonPath("$.data[1].mobileNumber").isEqualTo("17694873618");
+     }
+```
+
+### MockMvc实现的web测试（同步）
+```$xslt
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ActiveProfiles("test")
+@RunWith(SpringJUnit4ClassRunner.class)
+public class RequestTest {
+  private MockMvc mockMvc;
+  @Autowired
+  private WebApplicationContext webApplicationContext;
+
+  @Before
+  public void init() {
+    mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+
+  }
+
+  @Test
+  public void getTest() throws Exception {
+    mockMvc
+        .perform(
+            MockMvcRequestBuilders.get(LindDemo.HELLO200)
+                .accept(MediaType.APPLICATION_JSON_UTF8))
+        .andExpect(status().isOk());
+  }
+
+  @Test
+  public void postTest() throws Exception {
+    mockMvc
+        .perform(
+            post(LindDemo.POSTDO)
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content("zzl"))
+        .andExpect(status().isOk());
+  }
+}
+
+```
