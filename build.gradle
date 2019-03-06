@@ -175,9 +175,9 @@ test {
     outputs.dir snippetsDir
 }
 
-asciidoctor {
-    inputs.dir snippetsDir
-    outputDir file("build/asciidoc")
-    dependsOn test
-    sourceDir file('src/docs/asciidoc')
-}
+//asciidoctor {
+//    inputs.dir snippetsDir
+//    outputDir file("build/asciidoc")
+//    dependsOn test
+//    sourceDir file('src/docs/asciidoc')
+//}
