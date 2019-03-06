@@ -18,8 +18,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+import org.springframework.test.context.ActiveProfiles;
 
-@Profile("test")
+@ActiveProfiles("test")
 @Component
 public class AmqpConfigMock {
   public static final String LIND_EXCHANGE = "test.basic.exchange";

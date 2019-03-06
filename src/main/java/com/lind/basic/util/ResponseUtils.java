@@ -66,6 +66,9 @@ public class ResponseUtils {
 
   /**
    * 构建ResponseEntity.
+   *
+   * @param errorResponse .
+   * @return .
    */
   public static ResponseEntity<ErrorResponse> buildResponseEntity(ErrorResponse errorResponse) {
     return ResponseEntity.status(errorResponse.getStatus()).body(errorResponse);
@@ -73,6 +76,12 @@ public class ResponseUtils {
 
   /**
    * 构建ResponseEntity.
+   *
+   * @param request    .
+   * @param httpStatus .
+   * @param errorCode  .
+   * @param value      .
+   * @return .
    */
   public static ErrorResponse buildErrorResponse(
       HttpServletRequest request,
@@ -89,6 +98,11 @@ public class ResponseUtils {
 
   /**
    * 构建ResponseEntity.
+   *
+   * @param request    .
+   * @param httpStatus .
+   * @param errorItems .
+   * @return .
    */
   public static ErrorResponse buildErrorResponse(
       HttpServletRequest request,
@@ -110,6 +124,9 @@ public class ResponseUtils {
 
   /**
    * 返回请求URI.
+   *
+   * @param request .
+   * @return .
    */
   public static String getFullRequestUrl(HttpServletRequest request) {
     String fullRequestUrl = request.getRequestURI();

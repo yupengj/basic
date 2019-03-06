@@ -8,12 +8,13 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseFactoryBean;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
+import org.springframework.test.context.ActiveProfiles;
 
 /**
  * H2数据库初始化.
  */
 @Configuration
-@Profile("test")
+@ActiveProfiles("test")
 public class H2Mock {
   @Value("${h2.dbName:test}")
   String dbName;

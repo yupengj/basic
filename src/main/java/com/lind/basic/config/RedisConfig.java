@@ -7,13 +7,11 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
-import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 /**
- * Spring Session，禁用了传统的session，将session放到了Redis中，可以在分布式的多个服务中找到用户的session.
+ * 对redis
  */
 @Configuration
-@EnableRedisHttpSession
 public class RedisConfig {
 
   @Autowired
@@ -29,7 +27,7 @@ public class RedisConfig {
   }
 
   /**
-   * redis 配置.
+   * redis重写RedisTemplate.
    */
   @Bean
   public RedisTemplate redisTemplate() {

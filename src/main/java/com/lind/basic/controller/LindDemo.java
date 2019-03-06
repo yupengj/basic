@@ -70,11 +70,24 @@ public class LindDemo {
     return "ok";
   }
 
+  /**
+   * get请求测试.
+   *
+   * @return
+   * @throws IOException
+   */
   @GetMapping(GETDO)
   String getDo() throws IOException {
     return "ok";
   }
 
+  /**
+   * post请求测试.
+   *
+   * @param name 名称
+   * @return
+   * @throws IOException
+   */
   @PostMapping(POSTDO)
   String postDo(@RequestBody String name) throws IOException {
     return name;

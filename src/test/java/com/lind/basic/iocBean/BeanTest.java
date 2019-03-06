@@ -4,8 +4,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.junit4.SpringRunner;
 
+@Profile("test")
 @RunWith(SpringRunner.class)
 @SpringBootTest()
 public class BeanTest {
@@ -14,6 +16,6 @@ public class BeanTest {
 
   @Test
   public void testIoc() {
-    logService.send("hello", "hello");
+    logService.send("ok", "ok");
   }
 }

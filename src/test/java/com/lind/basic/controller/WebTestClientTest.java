@@ -22,25 +22,13 @@ public class WebTestClientTest {
         .exchange().expectStatus().isOk();
   }
 
-  @Test
-  public void put() {
-    webClient.put().uri("api/v1")
-        .syncBody("zzl")
-        .exchange()
-        .expectStatus().isOk();
-  }
-
-  @Test
-  public void post() {
-    webClient.post()
-        .uri(uriBuilder -> uriBuilder.path(LindDemo.POSTDO)
-            .queryParam("mobileNumbers", "17694873618")
-            .queryParam("mobileNumbers", "17694873618")
-            .build())
-        .syncBody("ok")
-        .exchange()
-        .expectStatus().isOk()
-        .expectBody()
-        .jsonPath("$.data[1].mobileNumber").isEqualTo("17694873618");
-  }
+//  @Test
+//  public void post() {
+//    webClient.post()
+//        .uri(uriBuilder -> uriBuilder.path(LindDemo.POSTDO)
+//            .build())
+//        .syncBody("ok")
+//        .exchange()
+//        .expectStatus().isOk();
+//  }
 }

@@ -1,0 +1,6 @@
+= 测试
+
+== get请求
+operation::get-lind-demo[snippets='curl-request,http-response']
+== post请求
+operation::post-request[snippets='path-parameters,curl-request,http-response']
