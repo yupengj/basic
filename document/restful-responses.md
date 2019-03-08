@@ -25,10 +25,10 @@
   }
 ```
 #### httpError和我们封装的httpError
-对于http error来说有很多种，基本可以定为code在400到500之间的，像客户端参数问题就是400-
-badrequest,而没有认证就是401-Unauthorized,认证但没有对应的权限就是403-Forbidden,请求的
-资源没有发现就是404-Not Found，请求方式错误（方法是post，你发起请求用了get）就是405-
-Method Not Allowed等。
+对于http error来说有很多种，基本可以定为code在400到500之间的，像客户端参数问题就是`400-
+bad request`,而没有认证就是`401-Unauthorized`,认证但没有对应的权限就是`403-Forbidden`,请求的
+资源没有发现就是`404-Not Found`，请求方式错误（方法是post，你发起请求用了get）就是`405-
+Method Not Allowed`等。
 * 使用标准http响应状态码
 ```$xslt
   @GetMapping(GET_HTTP_ERROR)
