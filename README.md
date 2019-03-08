@@ -11,3 +11,4 @@
 * [x] [领域驱动设计的实现](./document/ddd.md)
 * [x] [docker部署基础设施](./document/docker-infrastructure.md)
 * [x] [restdocs自动生成文档](./document/restdocs.md)
+* [x] [api返回值的标准化](./document/restful-responses.md)

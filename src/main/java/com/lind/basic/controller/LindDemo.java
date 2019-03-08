@@ -4,9 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
 import com.lind.basic.authentication.SimpleTokenHelper;
 import com.lind.basic.exception.Exceptions;
+import com.lind.basic.util.ResponseUtils;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +22,8 @@ public class LindDemo {
   public static final String HELLO200 = PATH + "/hello200";
   public static final String POSTDO = PATH + "/post-do";
   public static final String GETDO = PATH + "/get-do";
+  public static final String GET_ERROR = PATH + "/get-error";
+  public static final String GET_HTTP_ERROR = PATH + "/get-http-error";
 
 
   @Autowired
@@ -33,9 +37,9 @@ public class LindDemo {
    * @return
    */
   @GetMapping(HELLO401)
-  public String hello401() {
+  public ResponseEntity<?> hello401() {
     simpleTokenHelper.isLogin("zzl");
-    return "hello";
+    return ResponseUtils.okMessage("hello");
   }
 
   /**
@@ -44,7 +48,7 @@ public class LindDemo {
    * @return
    */
   @GetMapping(HELLO400)
-  public void hello400() {
+  public ResponseEntity<?> hello400() {
     throw Exceptions.badRequestParams("参数问题");
   }
 
@@ -54,10 +58,11 @@ public class LindDemo {
    * @return
    */
   @GetMapping(HELLO200)
-  public String hello200() throws Exception {
+  public ResponseEntity<?> hello200() throws Exception {
     String token = simpleTokenHelper.writeToken(ImmutableMap.of("id", 1, "name", "张三"));
     simpleTokenHelper.isLogin(token);
-    return objectMapper.writeValueAsString(simpleTokenHelper.readToken(token));
+    return ResponseUtils.ok(
+        objectMapper.writeValueAsString(simpleTokenHelper.readToken(token)));
   }
 
   @GetMapping("/foo")
@@ -77,8 +82,8 @@ public class LindDemo {
    * @throws IOException
    */
   @GetMapping(GETDO)
-  String getDo() throws IOException {
-    return "ok";
+  ResponseEntity<?> getDo() throws IOException {
+    return ResponseUtils.okMessage("ok");
   }
 
   /**
@@ -89,7 +94,17 @@ public class LindDemo {
    * @throws IOException
    */
   @PostMapping(POSTDO)
-  String postDo(@RequestBody String name) throws IOException {
-    return name;
+  ResponseEntity<?> postDo(@RequestBody String name) throws IOException {
+    return ResponseUtils.ok(name);
+  }
+
+  @GetMapping(GET_ERROR)
+  ResponseEntity<?> getError() throws IOException {
+    return ResponseUtils.badRequest("传入的参数非法！");
+  }
+
+  @GetMapping(GET_HTTP_ERROR)
+  ResponseEntity<?> getHttpError() throws IOException {
+    return ResponseEntity.badRequest().build();
   }
 }

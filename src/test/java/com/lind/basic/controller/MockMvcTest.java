@@ -7,7 +7,6 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.lang.reflect.Method;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -16,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.JUnitRestDocumentation;
-import org.springframework.restdocs.ManualRestDocumentation;
 import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -28,11 +26,12 @@ import org.springframework.web.context.WebApplicationContext;
 @ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class MockMvcTest {
+  @Rule
+  public JUnitRestDocumentation restDocumentation = new JUnitRestDocumentation();
   private MockMvc mockMvc;
   @Autowired
   private WebApplicationContext webApplicationContext;
-  @Rule
-  public JUnitRestDocumentation restDocumentation = new JUnitRestDocumentation();
+
   @Before
   public void init() {
     mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
@@ -63,5 +62,25 @@ public class MockMvcTest {
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content("zzl"))
         .andExpect(status().isOk()).andDo(document("post-request"));
+  }
+
+  @Test
+  public void getHttpError() throws Exception {
+    mockMvc
+        .perform(
+            get(LindDemo.GET_HTTP_ERROR)
+                .accept(MediaType.APPLICATION_JSON_UTF8))
+        .andExpect(status().is(400));
+
+  }
+
+  @Test
+  public void getError() throws Exception {
+    mockMvc
+        .perform(
+            get(LindDemo.GET_ERROR)
+                .accept(MediaType.APPLICATION_JSON_UTF8))
+        .andExpect(status().isOk());
+
   }
 }
