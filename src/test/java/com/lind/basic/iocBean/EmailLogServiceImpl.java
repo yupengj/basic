@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
-@Component
+@Component("email-log1")
 public class EmailLogServiceImpl implements EmailLogService {
   private static final Logger logger = LoggerFactory.getLogger(EmailLogServiceImpl.class);
 

@@ -6,8 +6,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
-@Component
-@Primary
+@Component("email-log2")
 public class EmailLog2ServiceImpl implements EmailLogService {
   private static final Logger logger = LoggerFactory.getLogger(EmailLog2ServiceImpl.class);
 
