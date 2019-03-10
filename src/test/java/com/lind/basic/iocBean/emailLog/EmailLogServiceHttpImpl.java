@@ -1,13 +1,13 @@
-package com.lind.basic.iocBean;
+package com.lind.basic.iocBean.emailLog;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
-@Component("email-log1")
-public class EmailLogServiceImpl implements EmailLogService {
-  private static final Logger logger = LoggerFactory.getLogger(EmailLogServiceImpl.class);
+@Component("email-http")
+public class EmailLogServiceHttpImpl implements EmailLogService {
+  private static final Logger logger = LoggerFactory.getLogger(EmailLogServiceHttpImpl.class);
 
   @Override
   public void send(String email, String message) {

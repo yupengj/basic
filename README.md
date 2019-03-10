@@ -1,5 +1,5 @@
 # 大叔基础类库
-> 我们一般会把公用的代码放在一个包里，然后其它 项目可以直接使用，就像你使用第三方包一样！
+> 我一般会把公用的代码放在一个包里com.lind.basic，然后其它 项目可以直接使用，就像你使用第三方包一样！
 ## 主要内容
 * [x] [仓库](./document/repository.md)
 * [x] [jpa实体基类和继承](./document/jpa.md)
@@ -12,3 +12,4 @@
 * [x] [docker部署基础设施](./document/docker-infrastructure.md)
 * [x] [restdocs自动生成文档](./document/restdocs.md)
 * [x] [api返回值的标准化](./document/restful-responses.md)
+* [x] [spring-ioc-aop的使用](./document/spring-ioc-aop.md)
