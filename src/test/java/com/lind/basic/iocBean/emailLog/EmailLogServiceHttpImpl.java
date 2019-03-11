@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
-@Component("email-http")
+@Component()
 public class EmailLogServiceHttpImpl implements EmailLogService {
   private static final Logger logger = LoggerFactory.getLogger(EmailLogServiceHttpImpl.class);
 
