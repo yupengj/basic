@@ -15,3 +15,4 @@
 * [x] [spring-ioc-aop的使用](./document/spring-ioc-aop.md)
 * [x] [功能性枚举基类和工厂类的设计](./document/enum.md)
 * [x] [spring-cache的使用](./document/cache.md)
+* [x] [swagger2生成api文档](./document/swagger2.md)
