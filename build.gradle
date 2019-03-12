@@ -26,8 +26,6 @@ buildscript {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
         classpath "org.asciidoctor:asciidoctor-gradle-jvm:2.0.0-rc.1"
         classpath "org.asciidoctor:asciidoctor-gradle-base:2.0.0-rc.1"
-
-
     }
 
 
@@ -101,6 +99,8 @@ dependencies {
             'com.google.guava:guava:24.1-jre',
             'com.google.zxing:core:3.3.2',
             'com.google.zxing:javase:3.3.2',
+            'com.h2database:h2',
+
     )
     compileOnly('org.projectlombok:lombok')
     testCompileOnly('org.projectlombok:lombok')
@@ -115,7 +115,6 @@ dependencies {
             'org.springframework.boot:spring-boot-starter-data-mongodb',
             'org.springframework.boot:spring-boot-starter-amqp',
             'mysql:mysql-connector-java',
-            'com.h2database:h2',
             'org.springframework.boot:spring-boot-starter-cache',
     )
 
