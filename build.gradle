@@ -116,6 +116,7 @@ dependencies {
             'org.springframework.boot:spring-boot-starter-amqp',
             'mysql:mysql-connector-java',
             'com.h2database:h2',
+            'org.springframework.boot:spring-boot-starter-cache',
     )
 
     testCompile 'org.springframework.restdocs:spring-restdocs-mockmvc'
