@@ -5,8 +5,11 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lind.basic.enums.LindStatus;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -28,6 +31,8 @@ import org.springframework.web.context.WebApplicationContext;
 public class MockMvcTest {
   @Rule
   public JUnitRestDocumentation restDocumentation = new JUnitRestDocumentation();
+  @Autowired
+  ObjectMapper objectMapper;
   private MockMvc mockMvc;
   @Autowired
   private WebApplicationContext webApplicationContext;
@@ -46,7 +51,7 @@ public class MockMvcTest {
     RestDocumentationResultHandler documentationResultHandler = document("get-lind-demo");
     mockMvc
         .perform(
-            get(LindDemo.HELLO200)
+            get(LindDemoController.HELLO200)
                 .accept(MediaType.APPLICATION_JSON_UTF8))
         .andExpect(status().isOk())
         .andDo(documentationResultHandler);
@@ -57,7 +62,7 @@ public class MockMvcTest {
   public void postTest() throws Exception {
     mockMvc
         .perform(
-            post(LindDemo.POSTDO)
+            post(LindDemoController.POSTDO)
                 .accept(MediaType.APPLICATION_JSON_UTF8)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content("zzl"))
@@ -68,7 +73,7 @@ public class MockMvcTest {
   public void getHttpError() throws Exception {
     mockMvc
         .perform(
-            get(LindDemo.GET_HTTP_ERROR)
+            get(LindDemoController.GET_HTTP_ERROR)
                 .accept(MediaType.APPLICATION_JSON_UTF8))
         .andExpect(status().is(400));
 
@@ -78,9 +83,76 @@ public class MockMvcTest {
   public void getError() throws Exception {
     mockMvc
         .perform(
-            get(LindDemo.GET_ERROR)
+            get(LindDemoController.GET_ERROR)
                 .accept(MediaType.APPLICATION_JSON_UTF8))
         .andExpect(status().isOk());
 
+  }
+
+  /**
+   * 成功请求.
+   */
+  @Test
+  public void postDataSuccess() throws Exception {
+    mockMvc
+        .perform(
+            post(LindDemoController.POST_DATA)
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(objectMapper.writeValueAsString(
+                    UserDto.builder()
+                        .name("zzl")
+                        .status(LindStatus.NORMAL)
+                        .build())))
+        .andExpect(status().isOk())
+        .andDo(print());
+  }
+
+  /**
+   * 数据错误.
+   */
+  @Test
+  public void postDataError() throws Exception {
+    /**
+     * Body = {"status":400,"message":"人员需要是本人，不能是家属","data":{}}
+     */
+    mockMvc
+        .perform(
+            post(LindDemoController.POST_DATA)
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(objectMapper.writeValueAsString(
+                    UserDto.builder()
+                        .name("zhz")
+                        .status(LindStatus.NORMAL)
+                        .build())))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.status").value(400))
+        .andDo(print());
+  }
+
+  /**
+   * http错误.
+   *
+   */
+  @Test
+  public void postDataHttpError() throws Exception {
+    /**
+     * Body = {"status":400,"method":"POST","path":"/lind-demo/data","extra":null,
+     * "errors":[{"code":null,"value":null,"message":"人员非法"}]}
+     */
+    mockMvc
+        .perform(
+            post(LindDemoController.POST_DATA)
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(objectMapper.writeValueAsString(
+                    UserDto.builder()
+                        .name("lr")
+                        .status(LindStatus.NORMAL)
+                        .build())))
+        .andExpect(status().is(400))
+        .andExpect(jsonPath("$.status").value(400))
+        .andDo(print());
   }
 }

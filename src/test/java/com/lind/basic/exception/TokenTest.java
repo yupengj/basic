@@ -6,7 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.lind.basic.BaseTest;
-import com.lind.basic.controller.LindDemo;
+import com.lind.basic.controller.LindDemoController;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 
@@ -15,7 +15,7 @@ public class TokenTest extends BaseTest {
   public void simple401() throws Exception {
     mockMvc
         .perform(
-            get(LindDemo.HELLO401)
+            get(LindDemoController.HELLO401)
                 .accept(MediaType.APPLICATION_JSON_UTF8))
         .andExpect(status().is(401))
         .andDo(print())
@@ -27,7 +27,7 @@ public class TokenTest extends BaseTest {
   public void simple400() throws Exception {
     mockMvc
         .perform(
-            get(LindDemo.HELLO400)
+            get(LindDemoController.HELLO400)
                 .accept(MediaType.APPLICATION_JSON_UTF8))
         .andExpect(status().is(400))
         .andDo(print())
@@ -39,7 +39,7 @@ public class TokenTest extends BaseTest {
   public void simple200() throws Exception {
     mockMvc
         .perform(
-            get(LindDemo.HELLO200)
+            get(LindDemoController.HELLO200)
                 .accept(MediaType.APPLICATION_JSON_UTF8))
         .andExpect(status().isOk());
 

@@ -31,7 +31,6 @@ public abstract class EntityBase {
   @GeneratedValue(strategy = GenerationType.AUTO)
   protected Long id;
 
-
   /**
    * 添加时间.
    */

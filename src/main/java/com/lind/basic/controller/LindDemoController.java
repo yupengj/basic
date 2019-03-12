@@ -6,7 +6,9 @@ import com.lind.basic.authentication.SimpleTokenHelper;
 import com.lind.basic.exception.Exceptions;
 import com.lind.basic.util.ResponseUtils;
 import java.io.IOException;
+import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class LindDemo {
+public class LindDemoController {
   public static final String PATH = "/lind-demo";
   public static final String HELLO401 = PATH + "/hello401";
   public static final String HELLO400 = PATH + "/hello400";
@@ -24,6 +26,7 @@ public class LindDemo {
   public static final String GETDO = PATH + "/get-do";
   public static final String GET_ERROR = PATH + "/get-error";
   public static final String GET_HTTP_ERROR = PATH + "/get-http-error";
+  public static final String POST_DATA = PATH + "/data";
 
 
   @Autowired
@@ -107,4 +110,15 @@ public class LindDemo {
   ResponseEntity<?> getHttpError() throws IOException {
     return ResponseEntity.badRequest().build();
   }
+
+  @PostMapping(POST_DATA)
+  ResponseEntity<?> postData(@RequestBody Map<String, Object> map) throws IOException {
+    if (MapUtils.getString(map, "name").equals("zzl")) {
+      return ResponseUtils.ok(objectMapper.writeValueAsString(map));
+    } else if (MapUtils.getString(map, "name").equals("zhz")) {
+      return ResponseUtils.badRequest("人员需要是本人，不能是家属");
+    }
+    throw Exceptions.badRequestParams("人员非法");
+  }
+
 }
