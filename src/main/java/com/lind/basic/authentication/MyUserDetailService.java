@@ -13,8 +13,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class MyUserDetailService implements UserDetailsService {
-  @Autowired
-  private PasswordEncoder passwordEncoder;
 
   @Override
   public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
@@ -23,15 +21,16 @@ public class MyUserDetailService implements UserDetailsService {
       1. commaSeparatedStringToAuthorityList放入角色时需要加前缀ROLE_，而在controller使用时不需要加ROLE_前缀
       2. 放入的是权限时，不能加ROLE_前缀，hasAuthority与放入的权限名称对应即可
     */
+
     List<UserDetails> userDetailsList = new ArrayList<>();
     userDetailsList.add(User.builder()
         .username("admin")
-        .password(passwordEncoder.encode("123"))
+        .password("$2a$10$JIP695BbI.iDCC.nFL8q9eLJdAeUNiXDmnUZOOIAcGv./EFFrmsRa")
         .authorities(
             AuthorityUtils.commaSeparatedStringToAuthorityList("read,ROLE_ADMIN")).build());
     userDetailsList.add(User.builder()
         .username("user")
-        .password(passwordEncoder.encode("123"))
+        .password("$2a$10$JIP695BbI.iDCC.nFL8q9eLJdAeUNiXDmnUZOOIAcGv./EFFrmsRa")
         .authorities(
             AuthorityUtils.commaSeparatedStringToAuthorityList("read,ROLE_USER"))
         .build());

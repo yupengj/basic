@@ -31,8 +31,11 @@ public class LindDemoController {
 
   @Autowired
   SimpleTokenHelper simpleTokenHelper;
+
   @Autowired
   ObjectMapper objectMapper;
+  String tokenHeader = "Authorization";
+
 
   /**
    * hello .

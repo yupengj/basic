@@ -1,4 +1,4 @@
-package com.lind.basic.authentication;
+package com.lind.basic.authentication.userpassword;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;

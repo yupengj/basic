@@ -1,5 +1,9 @@
-package com.lind.basic.authentication;
+package com.lind.basic.authentication.userpassword;
 
+import com.lind.basic.authentication.userpassword.LindAuthenticationFailHandler;
+import com.lind.basic.authentication.userpassword.LindAuthenticationProvider;
+import com.lind.basic.authentication.userpassword.LindAuthenticationSuccessHandler;
+import com.lind.basic.authentication.userpassword.LindUserNameAuthenticationFilter;
 import java.util.Collections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +24,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  * @EnableWebMvcSecurity 注解开启Spring Security的功能.
  * @EnableGlobalMethodSecurity 注解表示开启@PreAuthorize,@PostAuthorize,@Secured.
  */
+@Profile("old")
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -36,7 +41,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity http) throws Exception {
     http
         .authorizeRequests()
-        .antMatchers("/", "/index", "/lind-demo/**").permitAll()
+        .antMatchers("/", "/index").permitAll()
         .antMatchers("/admin/**").hasRole("ADMIN")//按路由授权
         .anyRequest().authenticated()
         .and()

@@ -1,4 +1,4 @@
-package com.lind.basic.authentication;
+package com.lind.basic.authentication.userpassword;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -10,13 +10,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.stereotype.Component;
 
 /**
- * 拦截请求，获取认证需要的数据，并传递给Provider.
+ * 拦截请求，获取认证需要的数据，并传递给Provider step1.
  */
 public class LindUserNameAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
   public LindUserNameAuthenticationFilter() {
+
     super(new AntPathRequestMatcher("/login", "GET"));
   }
 
@@ -24,6 +26,7 @@ public class LindUserNameAuthenticationFilter extends AbstractAuthenticationProc
   public Authentication attemptAuthentication(
       HttpServletRequest request, HttpServletResponse response)
       throws AuthenticationException, IOException, ServletException {
+
     String username = request.getParameter("username");
     String password = request.getParameter("password");
 

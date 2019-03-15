@@ -18,3 +18,5 @@
 * [x] [功能性枚举基类和工厂类的设计](./document/enum.md)
 * [x] [spring-cache的使用](./document/cache.md)
 * [x] [swagger2生成api文档](./document/swagger2.md)
+* [x] [spring-security用户密码授权](./document/user-password-spring-security.md)
+* [x] [spring-security-token授权](./document/token-spring-security.md)

@@ -1,7 +1,6 @@
-package com.lind.basic.authentication;
+package com.lind.basic.authentication.userpassword;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.ImmutableMap;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -33,7 +32,7 @@ public class LindAuthenticationSuccessHandler
     response.setStatus(HttpServletResponse.SC_OK);
     response.setCharacterEncoding("UTF-8");
     response.setContentType("application/json; charset=utf-8");
-    String jsonMessage = objectMapper.writeValueAsString(ImmutableMap.of("message", "success"));
+    String jsonMessage = "{result:success}";
     response.getWriter().append(jsonMessage);
     logger.info("success,writeResponse,responseBody={}", jsonMessage);
   }
