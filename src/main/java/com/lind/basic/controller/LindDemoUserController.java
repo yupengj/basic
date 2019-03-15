@@ -1,5 +1,6 @@
 package com.lind.basic.controller;
 
+import com.lind.basic.enums.LindStatus;
 import com.lind.basic.util.CommonUtils;
 import com.lind.basic.util.ResponseUtils;
 import javax.security.sasl.AuthenticationException;
@@ -7,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -47,16 +49,20 @@ public class LindDemoUserController {
             .email("zzl@sina.com")
             .name("admin")
             .password(passwordEncoder.encode("123"))
+            .status(LindStatus.NORMAL)
+            .authorities("ADMIN,READ,WRITE")
             .build());
     return ResponseUtils.okMessage("操作成功");
   }
 
+  @PreAuthorize("hasRole('ADMIN')")
   @PostMapping(PATH + "add")
   public ResponseEntity<?> add(@Valid @RequestBody LindDemoUserModel lindDemoUserModel) {
     lindDemoUserRepository.save(lindDemoUserModel);
     return ResponseUtils.okMessage("操作成功");
   }
 
+  @PreAuthorize("hasRole('READ')")
   @GetMapping(PATH + "get")
   public ResponseEntity<?> get() {
     return ResponseUtils.ok(lindDemoUserRepository.findAll());

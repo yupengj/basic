@@ -2,12 +2,14 @@ package com.lind.basic.authentication;
 
 import com.lind.basic.controller.LindDemoUserModel;
 import com.lind.basic.controller.LindDemoUserRepository;
+import com.lind.basic.exception.Exceptions;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 @Component
 public class MyUserDetailService implements UserDetailsService {
@@ -35,6 +37,9 @@ public class MyUserDetailService implements UserDetailsService {
 //            AuthorityUtils.commaSeparatedStringToAuthorityList("read,ROLE_USER"))
 //        .build());
     List<LindDemoUserModel> userDetailsList = lindDemoUserRepository.findAll();
+    if (CollectionUtils.isEmpty(userDetailsList)) {
+      throw Exceptions.badRequestParams("数据库为空，请先初始化");
+    }
     //获取用户
     return userDetailsList.stream()
         .filter(o -> o.getUsername().equals(name))

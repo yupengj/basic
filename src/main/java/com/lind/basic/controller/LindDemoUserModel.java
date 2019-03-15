@@ -1,9 +1,9 @@
 package com.lind.basic.controller;
 
 import com.lind.basic.entity.jpa.EntityBase;
+import com.lind.basic.enums.LindStatus;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.Collection;
 import javax.persistence.Entity;
 import javax.validation.constraints.Email;
@@ -16,7 +16,7 @@ import lombok.ToString;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
 /**
@@ -37,6 +37,8 @@ public class LindDemoUserModel extends EntityBase implements UserDetails, Serial
   @Range(min = 1, max = 200, message = "年纪应该在1~200之间")
   private Integer age;
   private String password;
+  private LindStatus status;
+  private String authorities;
 
   public LindDemoUserModel(Long id, LocalDateTime createdOn, LocalDateTime updatedOn,
                            @NotBlank @Length(max = 50, message = "name最多为50个字符") String name,
@@ -57,7 +59,7 @@ public class LindDemoUserModel extends EntityBase implements UserDetails, Serial
    */
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return Arrays.asList(new SimpleGrantedAuthority("ADMIN"));
+    return AuthorityUtils.commaSeparatedStringToAuthorityList(authorities);
   }
 
   /**
