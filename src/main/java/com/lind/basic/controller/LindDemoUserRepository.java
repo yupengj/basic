@@ -1,6 +1,6 @@
 package com.lind.basic.controller;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface LindDemoUserRepository extends CrudRepository<LindDemoUserModel, Long> {
+public interface LindDemoUserRepository extends JpaRepository<LindDemoUserModel, Long> {
 }

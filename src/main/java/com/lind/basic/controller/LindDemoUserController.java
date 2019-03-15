@@ -13,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,6 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class LindDemoUserController {
   public static final String PATH = "/lind-demo/user/";
   public static final String LOGIN = "/lind-auth/login";
+  public static final String INIT = "/lind-auth/init";
+
   @Autowired
   AuthenticationManager authenticationManager;
   @Autowired
@@ -31,6 +34,22 @@ public class LindDemoUserController {
   RedisTemplate<String, String> redisTemplate;
   @Autowired
   LindDemoUserRepository lindDemoUserRepository;
+  @Autowired
+  PasswordEncoder passwordEncoder;
+
+  @GetMapping(INIT)
+  public ResponseEntity<?> init() {
+
+    lindDemoUserRepository.save(
+        LindDemoUserModel
+            .builder()
+            .age(37)
+            .email("zzl@sina.com")
+            .name("admin")
+            .password(passwordEncoder.encode("123"))
+            .build());
+    return ResponseUtils.okMessage("操作成功");
+  }
 
   @PostMapping(PATH + "add")
   public ResponseEntity<?> add(@Valid @RequestBody LindDemoUserModel lindDemoUserModel) {

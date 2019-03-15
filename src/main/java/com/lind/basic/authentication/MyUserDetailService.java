@@ -1,18 +1,18 @@
 package com.lind.basic.authentication;
 
-import java.util.ArrayList;
+import com.lind.basic.controller.LindDemoUserModel;
+import com.lind.basic.controller.LindDemoUserRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
 public class MyUserDetailService implements UserDetailsService {
+  @Autowired
+  LindDemoUserRepository lindDemoUserRepository;
 
   @Override
   public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
@@ -22,19 +22,19 @@ public class MyUserDetailService implements UserDetailsService {
       2. 放入的是权限时，不能加ROLE_前缀，hasAuthority与放入的权限名称对应即可
     */
 
-    List<UserDetails> userDetailsList = new ArrayList<>();
-    userDetailsList.add(User.builder()
-        .username("admin")
-        .password("$2a$10$JIP695BbI.iDCC.nFL8q9eLJdAeUNiXDmnUZOOIAcGv./EFFrmsRa")
-        .authorities(
-            AuthorityUtils.commaSeparatedStringToAuthorityList("read,ROLE_ADMIN")).build());
-    userDetailsList.add(User.builder()
-        .username("user")
-        .password("$2a$10$JIP695BbI.iDCC.nFL8q9eLJdAeUNiXDmnUZOOIAcGv./EFFrmsRa")
-        .authorities(
-            AuthorityUtils.commaSeparatedStringToAuthorityList("read,ROLE_USER"))
-        .build());
-
+//    List<UserDetails> userDetailsList = new ArrayList<>();
+//    userDetailsList.add(User.builder()
+//        .username("admin")
+//        .password("$2a$10$JIP695BbI.iDCC.nFL8q9eLJdAeUNiXDmnUZOOIAcGv./EFFrmsRa")
+//        .authorities(
+//            AuthorityUtils.commaSeparatedStringToAuthorityList("read,ROLE_ADMIN")).build());
+//    userDetailsList.add(User.builder()
+//        .username("user")
+//        .password("$2a$10$JIP695BbI.iDCC.nFL8q9eLJdAeUNiXDmnUZOOIAcGv./EFFrmsRa")
+//        .authorities(
+//            AuthorityUtils.commaSeparatedStringToAuthorityList("read,ROLE_USER"))
+//        .build());
+    List<LindDemoUserModel> userDetailsList = lindDemoUserRepository.findAll();
     //获取用户
     return userDetailsList.stream()
         .filter(o -> o.getUsername().equals(name))
