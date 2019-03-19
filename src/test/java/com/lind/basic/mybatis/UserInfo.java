@@ -1,6 +1,5 @@
 package com.lind.basic.mybatis;
 
-import com.lind.basic.entity.mybatis.EntityBase;
 import java.sql.Timestamp;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

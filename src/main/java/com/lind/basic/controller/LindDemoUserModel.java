@@ -1,5 +1,6 @@
 package com.lind.basic.controller;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.lind.basic.entity.jpa.EntityBase;
 import com.lind.basic.enums.LindStatus;
 import java.io.Serializable;
@@ -38,18 +39,20 @@ public class LindDemoUserModel extends EntityBase implements UserDetails, Serial
   private Integer age;
   private String password;
   private LindStatus status;
+  @TableField(exist = false)
   private String authorities;
 
   public LindDemoUserModel(Long id, LocalDateTime createdOn, LocalDateTime updatedOn,
                            @NotBlank @Length(max = 50, message = "name最多为50个字符") String name,
                            @Email(message = "email不合法") String email,
                            @Range(min = 1, max = 200, message = "年纪应该在1~200之间") Integer age,
-                           String password) {
+                           String password, String authorities) {
     super(id, createdOn, updatedOn);
     this.name = name;
     this.email = email;
     this.age = age;
     this.password = password;
+    this.authorities = authorities;
   }
 
   /**
@@ -60,6 +63,7 @@ public class LindDemoUserModel extends EntityBase implements UserDetails, Serial
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     return AuthorityUtils.commaSeparatedStringToAuthorityList(authorities);
+
   }
 
   /**

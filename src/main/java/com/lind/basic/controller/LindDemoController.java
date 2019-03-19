@@ -1,11 +1,13 @@
 package com.lind.basic.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
 import com.lind.basic.authentication.SimpleTokenHelper;
 import com.lind.basic.exception.Exceptions;
 import com.lind.basic.util.ResponseUtils;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.collections.MapUtils;
@@ -28,7 +30,8 @@ public class LindDemoController {
   public static final String GET_HTTP_ERROR = PATH + "/get-http-error";
   public static final String POST_DATA = PATH + "/data";
 
-
+  @Autowired
+  LindDemoUserModelMapper lindDemoUserModelMapper;
   @Autowired
   SimpleTokenHelper simpleTokenHelper;
 
@@ -36,6 +39,18 @@ public class LindDemoController {
   ObjectMapper objectMapper;
   String tokenHeader = "Authorization";
 
+  @GetMapping("/lind-demo/map/get")
+  public ResponseEntity<?> mapGet() {
+
+    lindDemoUserModelMapper.insert(LindDemoUserModel.builder()
+        .name("zzl")
+        .age(1)
+        .authorities("user")
+        .build());
+    Integer count = lindDemoUserModelMapper.selectCount(
+        new QueryWrapper<LindDemoUserModel>().lambda().eq(i -> i.getName(), "zzl"));
+    return ResponseUtils.okMessage("OK");
+  }
 
   /**
    * hello .

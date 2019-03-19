@@ -100,6 +100,8 @@ dependencies {
             'com.google.zxing:core:3.3.2',
             'com.google.zxing:javase:3.3.2',
             'com.h2database:h2',
+            'com.baomidou:mybatis-plus-boot-starter:3.0.6',
+
 
     )
     compileOnly('org.projectlombok:lombok')
@@ -111,7 +113,6 @@ dependencies {
             'de.flapdoodle.embed:de.flapdoodle.embed.mongo',
             'org.apache.qpid:qpid-broker:6.1.2',
             'commons-io:commons-io:2.5',
-            'com.baomidou:mybatis-plus-boot-starter:3.0.6',
             'org.springframework.boot:spring-boot-starter-data-mongodb',
             'org.springframework.boot:spring-boot-starter-amqp',
             'mysql:mysql-connector-java',

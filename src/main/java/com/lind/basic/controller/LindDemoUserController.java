@@ -50,7 +50,6 @@ public class LindDemoUserController {
             .name("admin")
             .password(passwordEncoder.encode("123"))
             .status(LindStatus.NORMAL)
-            .authorities("ADMIN,READ,WRITE")
             .build());
     return ResponseUtils.okMessage("操作成功");
   }
