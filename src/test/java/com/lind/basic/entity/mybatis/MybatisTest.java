@@ -1,4 +1,4 @@
-package com.lind.basic.mybatis;
+package com.lind.basic.entity.mybatis;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -9,7 +9,7 @@ import org.junit.Test;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@MapperScan("com.lind.basic.mybatis")
+@MapperScan("com.lind.basic.entity.mybatis")
 public class MybatisTest extends BaseTest {
   @Autowired
   UserInfoMapper userInfoMapper;

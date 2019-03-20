@@ -1,4 +1,4 @@
-package com.lind.basic.mybatis;
+package com.lind.basic.entity.mybatis;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

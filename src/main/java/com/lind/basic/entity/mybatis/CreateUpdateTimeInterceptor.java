@@ -1,4 +1,4 @@
-package com.lind.basic.mybatis;
+package com.lind.basic.entity.mybatis;
 
 import com.baomidou.mybatisplus.extension.handlers.AbstractSqlParserHandler;
 import java.lang.reflect.Field;

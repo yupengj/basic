@@ -31,26 +31,11 @@ public class LindDemoController {
   public static final String POST_DATA = PATH + "/data";
 
   @Autowired
-  LindDemoUserModelMapper lindDemoUserModelMapper;
-  @Autowired
   SimpleTokenHelper simpleTokenHelper;
 
   @Autowired
   ObjectMapper objectMapper;
   String tokenHeader = "Authorization";
-
-  @GetMapping("/lind-demo/map/get")
-  public ResponseEntity<?> mapGet() {
-
-    lindDemoUserModelMapper.insert(LindDemoUserModel.builder()
-        .name("zzl")
-        .age(1)
-        .authorities("user")
-        .build());
-    Integer count = lindDemoUserModelMapper.selectCount(
-        new QueryWrapper<LindDemoUserModel>().lambda().eq(i -> i.getName(), "zzl"));
-    return ResponseUtils.okMessage("OK");
-  }
 
   /**
    * hello .
