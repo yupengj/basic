@@ -3,6 +3,7 @@
 > 大叔QQ：853066980，有时间找大叔！
 
 ## 大叔spring学习总结
+* [x] [大叔basic项目及子项目](./document/basic-project.md)
 * [x] [仓库](./document/repository.md)
 * [x] [jpa实体基类和继承](./document/jpa.md)
 * [x] [mybatis建立和更新时间自动填充](./document/mybatis.md)
