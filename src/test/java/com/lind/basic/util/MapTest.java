@@ -1,6 +1,8 @@
 package com.lind.basic.util;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.apache.commons.collections.MapUtils;
 import org.junit.Test;
@@ -21,5 +23,14 @@ public class MapTest {
     if (MapUtils.isNotEmpty(ext)) {
       user.putAll(ext);
     }
+  }
+
+  @Test
+  public void listIterator() {
+    List<Integer> array = Arrays.asList(1, 2, 3, 4, 5);
+    List<List<Integer>> ret = CommonUtils.split(array, 2);
+
+    ret.forEach(o -> System.out.println(o));
+
   }
 }

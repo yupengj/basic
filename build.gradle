@@ -85,8 +85,6 @@ dependencies {
             'org.springframework.cloud:spring-cloud-context',
             'org.springframework.boot:spring-boot-starter-web',
             'org.springframework.boot:spring-boot-starter-webflux',
-            'org.springframework.boot:spring-boot-starter-data-jpa',
-            'org.springframework.boot:spring-boot-starter-security',
             'org.springframework.boot:spring-boot-starter-data-redis',
 
             'org.apache.commons:commons-lang3:3.5',
@@ -96,8 +94,6 @@ dependencies {
             'com.google.guava:guava:24.1-jre',
             'com.google.zxing:core:3.3.2',
             'com.google.zxing:javase:3.3.2',
-            'com.h2database:h2',
-            'com.baomidou:mybatis-plus-boot-starter:3.0.6',
 
 
     )
@@ -112,12 +108,8 @@ dependencies {
             'commons-io:commons-io:2.5',
             'org.springframework.boot:spring-boot-starter-data-mongodb',
             'org.springframework.boot:spring-boot-starter-amqp',
-            'mysql:mysql-connector-java',
             'org.springframework.boot:spring-boot-starter-cache',
     )
-
-    testCompile 'org.springframework.restdocs:spring-restdocs-mockmvc'
-    asciidoctor 'org.springframework.restdocs:spring-restdocs-asciidoctor'
 }
 
 // 类型项目需要是非启动项目，所以有以下设置

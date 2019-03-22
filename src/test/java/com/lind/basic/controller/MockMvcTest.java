@@ -1,9 +1,7 @@
 package com.lind.basic.controller;
 
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -11,14 +9,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lind.basic.enums.LindStatus;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.restdocs.JUnitRestDocumentation;
-import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -29,8 +24,6 @@ import org.springframework.web.context.WebApplicationContext;
 @ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class MockMvcTest {
-  @Rule
-  public JUnitRestDocumentation restDocumentation = new JUnitRestDocumentation();
   @Autowired
   ObjectMapper objectMapper;
   private MockMvc mockMvc;
@@ -40,7 +33,6 @@ public class MockMvcTest {
   @Before
   public void init() {
     mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
-        .apply(documentationConfiguration(this.restDocumentation))
         .alwaysDo(print())
         .build();
 
@@ -48,13 +40,11 @@ public class MockMvcTest {
 
   @Test
   public void getTest() throws Exception {
-    RestDocumentationResultHandler documentationResultHandler = document("get-lind-demo");
     mockMvc
         .perform(
             get(LindDemoController.HELLO200)
                 .accept(MediaType.APPLICATION_JSON_UTF8))
-        .andExpect(status().isOk())
-        .andDo(documentationResultHandler);
+        .andExpect(status().isOk());
 
   }
 
@@ -66,7 +56,7 @@ public class MockMvcTest {
                 .accept(MediaType.APPLICATION_JSON_UTF8)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content("zzl"))
-        .andExpect(status().isOk()).andDo(document("post-request"));
+        .andExpect(status().isOk());
   }
 
   @Test
@@ -133,7 +123,6 @@ public class MockMvcTest {
 
   /**
    * http错误.
-   *
    */
   @Test
   public void postDataHttpError() throws Exception {

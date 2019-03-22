@@ -2,11 +2,8 @@ package com.lind.basic.config;
 
 import java.util.Collections;
 import javax.annotation.Resource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.RedisSerializer;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
 
@@ -37,6 +34,23 @@ public class JedisLock {
       Jedis jedis = (Jedis) redisConnection.getNativeConnection();
       String result = jedis.set(lockKey, clientId,
           SET_IF_NOT_EXIST, SET_WITH_EXPIRE_TIME, LOCK_EXPIRE_TIME);
+      return LOCK_SUCCESS.equals(result);
+    });
+  }
+
+  /**
+   * 获取锁.
+   *
+   * @param lockKey       键
+   * @param clientId      值
+   * @param expireSeconds 超时时间秒
+   * @return
+   */
+  public Boolean tryLock(String lockKey, String clientId, long expireSeconds) {
+    return redisTemplate.execute((RedisCallback<Boolean>) redisConnection -> {
+      Jedis jedis = (Jedis) redisConnection.getNativeConnection();
+      String result = jedis.set(lockKey, clientId,
+          SET_IF_NOT_EXIST, SET_WITH_EXPIRE_TIME, expireSeconds);
       return LOCK_SUCCESS.equals(result);
     });
   }

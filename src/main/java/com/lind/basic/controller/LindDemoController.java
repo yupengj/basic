@@ -1,13 +1,9 @@
 package com.lind.basic.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.ImmutableMap;
-import com.lind.basic.authentication.SimpleTokenHelper;
 import com.lind.basic.exception.Exceptions;
 import com.lind.basic.util.ResponseUtils;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.collections.MapUtils;
@@ -31,9 +27,6 @@ public class LindDemoController {
   public static final String POST_DATA = PATH + "/data";
 
   @Autowired
-  SimpleTokenHelper simpleTokenHelper;
-
-  @Autowired
   ObjectMapper objectMapper;
   String tokenHeader = "Authorization";
 
@@ -44,7 +37,6 @@ public class LindDemoController {
    */
   @GetMapping(HELLO401)
   public ResponseEntity<?> hello401() {
-    simpleTokenHelper.isLogin("zzl");
     return ResponseUtils.okMessage("hello");
   }
 
@@ -65,10 +57,8 @@ public class LindDemoController {
    */
   @GetMapping(HELLO200)
   public ResponseEntity<?> hello200() throws Exception {
-    String token = simpleTokenHelper.writeToken(ImmutableMap.of("id", 1, "name", "张三"));
-    simpleTokenHelper.isLogin(token);
-    return ResponseUtils.ok(
-        objectMapper.writeValueAsString(simpleTokenHelper.readToken(token)));
+
+    return ResponseUtils.ok(true);
   }
 
   @GetMapping("/foo")
