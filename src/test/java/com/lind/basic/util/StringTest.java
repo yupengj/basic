@@ -1,5 +1,6 @@
 package com.lind.basic.util;
 
+import java.time.LocalDateTime;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -31,5 +32,11 @@ public class StringTest {
     System.out.println(ReplaceStarUtils.replaceAction("海关统计不公司"));
 
   }
+
+  @Test
+  public void dateString() {
+    System.out.println(LocalDateTime.now().toLocalDate());
+  }
+
 
 }
