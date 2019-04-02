@@ -7,7 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
 @Slf4j
-public class twoSum {
+public class TwoSumTest {
   @Test
   public void testAddTwoNumbers() {
     ListNode l1 = new ListNode(1);
@@ -45,8 +45,12 @@ public class twoSum {
       int pop = x % 10;
       x /= 10;
       //溢出检查
-      if (rev > Integer.MAX_VALUE / 10 || (rev == Integer.MAX_VALUE / 10 && pop > 7)) return 0;
-      if (rev < Integer.MIN_VALUE / 10 || (rev == Integer.MIN_VALUE / 10 && pop < -8)) return 0;
+      if (rev > Integer.MAX_VALUE / 10 || (rev == Integer.MAX_VALUE / 10 && pop > 7)) {
+        return 0;
+      }
+      if (rev < Integer.MIN_VALUE / 10 || (rev == Integer.MIN_VALUE / 10 && pop < -8)) {
+        return 0;
+      }
       rev = rev * 10 + pop;
     }
     return rev;
@@ -82,7 +86,9 @@ public class twoSum {
    */
   public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
     ListNode dummyHead = new ListNode(0);
-    ListNode p = l1, q = l2, curr = dummyHead;
+    ListNode p = l1;
+    ListNode q = l2;
+    ListNode curr = dummyHead;
     int carry = 0;
     while (p != null || q != null) {
       int x = (p != null) ? p.val : 0;
@@ -91,8 +97,12 @@ public class twoSum {
       carry = sum / 10;
       curr.next = new ListNode(sum % 10);
       curr = curr.next;
-      if (p != null) p = p.next;
-      if (q != null) q = q.next;
+      if (p != null) {
+        p = p.next;
+      }
+      if (q != null) {
+        q = q.next;
+      }
     }
     if (carry > 0) {
       curr.next = new ListNode(carry);

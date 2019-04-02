@@ -16,7 +16,6 @@ import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -155,6 +154,11 @@ public class AmqpConfigMock {
         .with(LIND_QUEUE_ROUTEKEY);
   }
 
+  /**
+   * bind.
+   *
+   * @return
+   */
   @Bean
   public Binding bindBuildersRouteKey2() {
     return BindingBuilder.bind(key2())

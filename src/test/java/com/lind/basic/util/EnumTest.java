@@ -26,8 +26,8 @@ public class EnumTest {
     for (EnumPayTaxesNature s : EnumPayTaxesNature.values()) {
       System.out.println(s.code + ",");
     }
-    System.out.println("contion:" +
-        (Arrays.stream(EnumPayTaxesNature.values()).map(i -> i.code).filter(i -> i.equals(-1)).count() > 0) + "");
+    System.out.println("contion:" + (Arrays.stream(EnumPayTaxesNature.values())
+        .map(i -> i.code).filter(i -> i.equals(-1)).count() > 0) + "");
   }
 
   @Test

@@ -9,7 +9,7 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 /**
- * 对redis
+ * 对redis.
  */
 @Configuration
 public class RedisConfig {
@@ -18,9 +18,9 @@ public class RedisConfig {
   private RedisConnectionFactory redisConnectionFactory;
 
   /**
-   * 统计bit位为1的总数
+   * 统计bit位为1的总数.
    *
-   * @param key
+   * @param key .
    */
   public long bitCount(final String key) {
     return redisConnectionFactory.getConnection().bitCount(key.getBytes());

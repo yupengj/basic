@@ -1,4 +1,4 @@
-package com.lind.basic.iocBean;
+package com.lind.basic.iocbean;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +21,7 @@ public class LogService {
 
   void aop(String message) {
     if (printLogService != null) {
-      printLogService.print(message);
+      printLogService.printMessage(message);
     }
   }
 

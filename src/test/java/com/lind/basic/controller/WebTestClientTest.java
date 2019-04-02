@@ -21,14 +21,4 @@ public class WebTestClientTest {
     webClient.get().uri(LindDemoController.GETDO)
         .exchange().expectStatus().isOk();
   }
-
-//  @Test
-//  public void post() {
-//    webClient.post()
-//        .uri(uriBuilder -> uriBuilder.path(LindDemoController.POSTDO)
-//            .build())
-//        .syncBody("ok")
-//        .exchange()
-//        .expectStatus().isOk();
-//  }
 }

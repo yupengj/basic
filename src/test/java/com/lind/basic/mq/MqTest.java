@@ -14,7 +14,7 @@ public class MqTest extends BaseTest {
   /**
    * 将会把消息发送给订阅了publisher.routekey的所有消费者.
    *
-   * @throws Exception
+   * @throws Exception .
    */
   @Test
   public void publisherTest() throws Exception {

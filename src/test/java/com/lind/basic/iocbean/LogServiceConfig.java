@@ -1,9 +1,7 @@
-package com.lind.basic.iocBean;
+package com.lind.basic.iocbean;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 
 /**
  * 下面作为LogService的行为修饰，可以在外部扩展它们，使LogService有更多的个性化行为.

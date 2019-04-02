@@ -22,7 +22,8 @@ public class CommonUtils {
    * @return
    */
   public static String encrypt(String str) {
-    char[] hexDigits = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
+    char[] hexDigits = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+        'A', 'B', 'C', 'D', 'E', 'F'};
     try {
       byte[] btInput = str.getBytes("GBK");
       // 获得MD5摘要算法的 MessageDigest 对象
@@ -67,8 +68,8 @@ public class CommonUtils {
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     try {
       Date d = sdf.parse(date);
-      long dTime = d.getTime();
-      return String.valueOf(dTime / 1000L);
+      long dateTime = d.getTime();
+      return String.valueOf(dateTime / 1000L);
     } catch (ParseException e) {
       e.printStackTrace();
     }
@@ -106,7 +107,6 @@ public class CommonUtils {
 
   /**
    * 如果传入的时间为null,则默认为最大时间.
-   * 2999-01-01
    *
    * @return
    */

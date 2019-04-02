@@ -30,6 +30,9 @@ public class MockMvcTest {
   @Autowired
   private WebApplicationContext webApplicationContext;
 
+  /**
+   * init.
+   */
   @Before
   public void init() {
     mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)

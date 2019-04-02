@@ -73,9 +73,6 @@ public class LindDemoController {
 
   /**
    * get请求测试.
-   *
-   * @return
-   * @throws IOException
    */
   @GetMapping(GETDO)
   ResponseEntity<?> getDo() throws IOException {
@@ -85,9 +82,7 @@ public class LindDemoController {
   /**
    * post请求测试.
    *
-   * @param name 名称
-   * @return
-   * @throws IOException
+   * @param name 名称 .
    */
   @PostMapping(POSTDO)
   ResponseEntity<?> postDo(@RequestBody String name) throws IOException {
