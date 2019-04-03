@@ -150,4 +150,18 @@ public class RedisTest {
     redisTemplate.opsForHyperLogLog().add(loglogKey, arr);
     System.out.println("loglog:" + redisTemplate.opsForHyperLogLog().size(loglogKey));
   }
+
+  @Test
+  public void inc() {
+    Long count = 0L;
+    if (redisTemplate.hasKey("okvalue")) {
+      count = Long.valueOf(redisTemplate.opsForValue().get("okvalue").toString());
+    } else {
+      redisTemplate.opsForValue().set("okvalue", "0");
+    }
+    redisTemplate.opsForValue().increment("okvalue", 1);
+    redisTemplate.opsForValue().increment("okvalue", 1);
+    count = Long.valueOf(redisTemplate.opsForValue().get("okvalue").toString());
+    System.out.println("okvalue=" + count);
+  }
 }
