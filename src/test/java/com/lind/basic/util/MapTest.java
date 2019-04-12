@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import org.apache.commons.collections.MapUtils;
 import org.junit.Test;
+import org.springframework.util.Assert;
 
 public class MapTest {
   @Test(expected = NullPointerException.class)
@@ -32,5 +33,11 @@ public class MapTest {
 
     ret.forEach(o -> System.out.println(o));
 
+  }
+
+  @Test
+  public void emptyMap() {
+    Map<String, Object> test = null;
+    Assert.isTrue(MapUtils.isEmpty(test), "ok");
   }
 }
