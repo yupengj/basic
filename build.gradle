@@ -86,7 +86,6 @@ dependencies {
             'org.springframework.boot:spring-boot-starter-web',
             'org.springframework.boot:spring-boot-starter-webflux',
             'org.springframework.boot:spring-boot-starter-data-redis',
-
             'org.apache.commons:commons-lang3:3.5',
             'commons-collections:commons-collections:3.2.2',
             'org.apache.poi:poi-ooxml:3.17',
